@@ -244,18 +244,39 @@
                 animation-play-state: paused;
             }
         }
+        
+        /* Ocultando a scrollbar no PC para a grade ficar limpa */
+        #work-grid::-webkit-scrollbar { display: none; }
+        #work-grid { -ms-overflow-style: none; scrollbar-width: none; }
 
         .client-item {
             padding: 0 3rem;
             font-size: 1.5rem;
             font-weight: 300;
             color: var(--text-muted);
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
             white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .client-img {
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 50%;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: filter 0.3s ease;
+            border: 1px solid var(--border-color);
         }
 
         .client-item:hover {
             color: var(--text-main);
+        }
+
+        .client-item:hover .client-img {
+            filter: grayscale(0%);
         }
 
         /* Video Modal */
@@ -701,14 +722,29 @@
                 }, 3000);
             }
 
-            // --- CLIENTES (Marquee Scroll Suave Infinito) ---
-            const clientsData = ['@client01', '@client02', '@client03', '@client04', '@client05', '@client06', '@client07', '@client08'];
+            // --- CLIENTES (Marquee Scroll Suave Infinito com Avatares) ---
+            const clientsData = [
+                { name: '@2ncompositor', id: '1xh7TAxx1CC1PCB7QeMMxZ6B9jjZ8Xvv7', user: '2ncompositor' },
+                { name: '@aromas_e_saude', id: '1QguhF-hUz3n6pxfTB4BYpJV4y2nyP2m7', user: 'aromas_e_saude' },
+                { name: '@nidobatista', id: '1qjvzw7BrUarGX52WIluh8JpO1oj6Te2p', user: 'nidobatista' },
+                { name: '@coletarecords', id: '1r1sHg7Bdebi8EJ6idh8qc8V9yPnSndHS', user: 'coletarecords' },
+                { name: '@abcconteiner', id: '1Ab-BnIszFGHzCVvDgYifRo66Kh92UTqa', user: 'abcconteiner' },
+                { name: '@bomb013', id: '1BbTXVW_k5vy0q5b0NM7wP2ig8QoNvCLa', user: 'bomb013' },
+                { name: '@personalgeovanii', id: '1IZw2YHCrlNpPGwgr5jkEeoW7m3ur0KZY', user: 'personalgeovanii' },
+                { name: '@umgamermuitolouko', id: '1qLX8vSc4bqsPRm0unsOMuaPA7t4B7Ji1', user: 'umgamermuitolouko' }
+            ];
+
             const marqueeContent = document.getElementById('marquee-content');
             
             function buildMarquee() {
                 let html = '';
                 [...clientsData, ...clientsData].forEach(client => {
-                    html += `<a href="https://instagram.com/${client.replace('@','')}" target="_blank" class="client-item hover-target">${client}</a>`;
+                    const thumbUrl = `https://drive.google.com/thumbnail?id=${client.id}&sz=w150-h150`;
+                    html += `
+                        <a href="https://instagram.com/${client.user}" target="_blank" class="client-item hover-target">
+                            <img src="${thumbUrl}" alt="${client.name}" class="client-img">
+                            <span>${client.name}</span>
+                        </a>`;
                 });
                 marqueeContent.innerHTML = html;
             }
