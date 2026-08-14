@@ -318,14 +318,12 @@
 
         /* Estilização da Troca Suave (Soft Swap) dos Vídeos Horizontais 16:9 */
         .horizontal-img {
-            transition: filter 1.5s ease, opacity 1.5s ease, transform 1.5s ease;
-            filter: grayscale(100%);
-            opacity: 0.6;
+            transition: opacity 1.5s ease, transform 1.5s ease;
+            opacity: 0.9;
             transform: scale(1);
         }
         /* O estado focado da animação de 3s OU o hover do usuário */
         .horizontal-img.is-focused, .horizontal-card:hover .horizontal-img {
-            filter: grayscale(0%);
             opacity: 1;
             transform: scale(1.02);
         }
