@@ -318,12 +318,14 @@
 
         /* Estilização da Troca Suave (Soft Swap) dos Vídeos Horizontais 16:9 */
         .horizontal-img {
-            transition: opacity 1.5s ease, transform 1.5s ease;
-            opacity: 0.9;
+            transition: filter 1.5s ease, opacity 1.5s ease, transform 1.5s ease;
+            filter: grayscale(100%);
+            opacity: 0.6;
             transform: scale(1);
         }
         /* O estado focado da animação de 3s OU o hover do usuário */
         .horizontal-img.is-focused, .horizontal-card:hover .horizontal-img {
+            filter: grayscale(0%);
             opacity: 1;
             transform: scale(1.02);
         }
@@ -477,16 +479,18 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12" id="horizontal-grid">
                     <!-- Video 1 -->
                     <div class="horizontal-card relative aspect-video bg-themeCard rounded overflow-hidden cursor-pointer group play-target" data-video="https://drive.google.com/file/d/107LUWTavQYRzfTwRAYclWF-ZjPihSz2y/preview">
-                        <!-- A imagem usa o gerador nativo de thumbnails do Google Drive -->
-                        <img src="https://drive.google.com/thumbnail?id=107LUWTavQYRzfTwRAYclWF-ZjPihSz2y&sz=w1280-h720" alt="Video 16:9 Destaque 1" class="w-full h-full object-cover horizontal-img">
+                        <!-- Imagem de frame customizada pelo usuário -->
+                        <img src="https://drive.google.com/thumbnail?id=16-___gCM9O05RSAGD54RPS0nLr1E_n9X&sz=w1280-h720" alt="Video 16:9 Destaque 1" class="w-full h-full object-cover horizontal-img">
+                        
                         <div class="work-info absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/80 to-transparent opacity-0 transform translate-y-4 transition-all duration-500 flex flex-col gap-1 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 z-10">
                             <span class="text-sm text-white font-light uppercase tracking-widest" data-i18n="horizontal-p1">PROJETO DESTAQUE 01</span>
                         </div>
                     </div>
                     <!-- Video 2 -->
                     <div class="horizontal-card relative aspect-video bg-themeCard rounded overflow-hidden cursor-pointer group play-target" data-video="https://drive.google.com/file/d/11RXx4ya49BARsj2-HuogeCUiIu2FCnkn/preview">
-                        <!-- A imagem usa o gerador nativo de thumbnails do Google Drive -->
-                        <img src="https://drive.google.com/thumbnail?id=11RXx4ya49BARsj2-HuogeCUiIu2FCnkn&sz=w1280-h720" alt="Video 16:9 Destaque 2" class="w-full h-full object-cover horizontal-img">
+                        <!-- Imagem de frame customizada pelo usuário -->
+                        <img src="https://drive.google.com/thumbnail?id=1VYCAZopji9ckgLoh16yuFSTnS9l0jQw1&sz=w1280-h720" alt="Video 16:9 Destaque 2" class="w-full h-full object-cover horizontal-img">
+                        
                         <div class="work-info absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/80 to-transparent opacity-0 transform translate-y-4 transition-all duration-500 flex flex-col gap-1 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 z-10">
                             <span class="text-sm text-white font-light uppercase tracking-widest" data-i18n="horizontal-p2">PROJETO DESTAQUE 02</span>
                         </div>
