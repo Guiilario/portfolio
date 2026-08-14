@@ -364,6 +364,7 @@
             <a href="#work" class="mobile-link uppercase" data-i18n="nav-work">TRABALHO</a>
             <a href="#contact" class="mobile-link uppercase" data-i18n="nav-contact">CONTATO</a>
             <button id="lang-toggle-mobile" class="mt-8 text-sm text-themeTextMuted border border-themeBorder px-4 py-2 rounded uppercase">EN / PT</button>
+            <!-- Botão Fechar reposicionado no final -->
             <button id="close-menu-btn" class="mt-8 text-xs tracking-widest text-themeText border-b border-themeText pb-1 uppercase hover:opacity-70 transition-opacity">FECHAR (X)</button>
         </nav>
     </div>
@@ -393,7 +394,7 @@
                     Storymaker e Videomaker. Crio, capto e edito conteúdos pensados para reter a atenção e transformar ideias em experiências audiovisuais na era digital.
                 </p>
                 
-                <!-- NEW STATS SECTION -->
+                <!-- NEW STATS SECTION (Mantida) -->
                 <div class="mt-10 pt-8 border-t border-themeBorder grid grid-cols-2 gap-x-8 gap-y-6">
                     <div>
                         <span class="block text-2xl font-light text-themeText mb-1">8</span>
@@ -425,13 +426,8 @@
                 <p class="text-sm text-themeText font-light uppercase" data-i18n="work-subtitle">Uma seleção do que tenho criado.</p>
             </div>
             <!-- Carrossel Mobile / Grid PC -->
-            <div class="flex overflow-x-auto md:grid md:grid-cols-4 gap-4 md:gap-8 snap-x snap-mandatory hide-scroll pb-4 md:pb-0 relative" id="work-grid">
-                <!-- Injetado via JS -->
-            </div>
-            
-            <!-- Pontos de Navegação (Apenas Mobile) -->
-            <div id="carousel-dots" class="md:hidden flex justify-center items-center gap-3 mt-6">
-                <!-- Injetado via JS -->
+            <div class="flex overflow-x-auto md:grid md:grid-cols-4 gap-4 md:gap-8 hide-scroll pb-4 md:pb-0 relative" id="work-grid">
+                <!-- Injetado via JS de forma limpa e sem erros -->
             </div>
         </section>
 
@@ -542,7 +538,7 @@
             const themeToggleMobileBtn = document.getElementById('theme-toggle-mobile');
 
             function updateThemeIcons(isLight) {
-                const icon = isLight ? '☾' : '☼'; // Lua no Claro (para ir pro escuro), Sol no Escuro
+                const icon = isLight ? '☾' : '☼';
                 themeToggleBtn.textContent = icon;
                 themeToggleMobileBtn.textContent = icon;
             }
@@ -560,92 +556,72 @@
             themeToggleBtn.addEventListener('click', toggleTheme);
             themeToggleMobileBtn.addEventListener('click', toggleTheme);
 
-            // --- DATA DOS TRABALHOS E THUMBNAILS SEGURAS ---
-            // --- LÓGICA DE CARROSSEL AUTOMÁTICO E PONTOS (MOBILE) ---
-            let autoScrollInterval;
-            let interactionTimeout;
-            const dotsContainer = document.getElementById('carousel-dots');
+            // --- DATA DOS TRABALHOS E INJEÇÃO SEGURA ---
+            const workDataRaw = [
+                { id: '01', title: 'Projeto 01', client: 'Client A', year: '2026', videoSrc: 'https://drive.google.com/file/d/1tzCk5Oi_tHOS1PDPmax-jMiFoy3LGxNt/preview' },
+                { id: '02', title: 'Projeto 02', client: 'Client B', year: '2026', videoSrc: 'https://drive.google.com/file/d/1TzW8Yt-VLfvarro9h1jc1_RX68c73xzd/preview' },
+                { id: '03', title: 'Projeto 03', client: 'Client C', year: '2025', videoSrc: 'https://drive.google.com/file/d/19mLu8qP_f-d0cYKSSRC4j2A6xD7LOLFn/preview' },
+                { id: '04', title: 'Projeto 04', client: 'Client D', year: '2025', videoSrc: 'https://drive.google.com/file/d/1Ikca7E-wj7j5CCiodqV7Yetjbc_F-2_L/preview' },
+                { id: '05', title: 'Projeto 05', client: 'Client E', year: '2026', videoSrc: 'https://drive.google.com/file/d/1psq0rFnOvsH9CSVfSMW8AZMvWm3dId5c/preview' },
+                { id: '06', title: 'Projeto 06', client: 'Client F', year: '2025', videoSrc: 'https://drive.google.com/file/d/1HR4BvD85bKCDzBYl62cTaD-ifw0piRbP/preview' },
+                { id: '07', title: 'Projeto 07', client: 'Client G', year: '2026', videoSrc: 'https://drive.google.com/file/d/1XKstTwL9VsiXNmCcqF2PJYm509l56Z6j/preview' },
+                { id: '08', title: 'Projeto 08', client: 'Client H', year: '2024', videoSrc: 'https://drive.google.com/file/d/1JSUCSoc6DnCr54-lBlUsGbtrF0z0GBOs/preview' }
+            ];
 
-            // Cria os pontos baseado na quantidade de vídeos
-            workData.forEach((_, i) => {
-                const dot = document.createElement('button');
-                dot.className = `w-2 h-2 rounded-full transition-colors duration-300 ${i === 0 ? 'bg-themeText' : 'bg-themeBorder'}`;
-                dot.setAttribute('aria-label', `Ir para o vídeo ${i + 1}`);
-                dot.addEventListener('click', () => {
-                    handleUserInteraction();
-                    const cards = workGrid.querySelectorAll('.work-card');
-                    if(cards[i]) {
-                        // Calcula a posição exata para rolar
-                        const scrollPos = cards[i].offsetLeft - workGrid.offsetLeft;
-                        workGrid.scrollTo({ left: scrollPos, behavior: 'smooth' });
-                    }
-                });
-                dotsContainer.appendChild(dot);
+            const workData = workDataRaw.map(work => {
+                const idMatch = work.videoSrc.match(/\/d\/([a-zA-Z0-9_-]+)/);
+                const fileId = idMatch ? idMatch[1] : '';
+                return {
+                    ...work,
+                    thumb: `https://drive.google.com/thumbnail?id=${fileId}&sz=w800-h1422`
+                };
             });
 
-            function updateDots(activeIndex) {
-                const dots = dotsContainer.querySelectorAll('button');
-                dots.forEach((dot, i) => {
-                    dot.className = `w-2 h-2 rounded-full transition-colors duration-300 ${i === activeIndex ? 'bg-themeText' : 'bg-themeBorder'}`;
-                });
-            }
+            const workGrid = document.getElementById('work-grid');
+            
+            // Renderizando Cards com CSS adequado para mobile e PC
+            workData.forEach(work => {
+                const card = document.createElement('div');
+                // No mobile, o card tem flex-none e uma largura para rolar. No PC é grid.
+                card.className = 'work-card flex-none w-[75vw] md:w-auto relative aspect-[9/16] bg-themeCard rounded overflow-hidden cursor-pointer group play-target snap-center';
+                card.setAttribute('data-video', work.videoSrc);
+                // Fallback seguro caso o Google Drive não permita abrir a imagem
+                card.innerHTML = `
+                    <img src="${work.thumb}" alt="${work.title}" onerror="this.src='https://placehold.co/800x1422/1a1a1a/555?text=${encodeURIComponent(work.title)}'" class="w-full h-full object-cover filter grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700">
+                    <div class="work-info absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/80 to-transparent opacity-0 transform translate-y-4 transition-all duration-500 flex flex-col gap-1 pointer-events-none">
+                        <span class="text-xs text-white tracking-[0.2em] font-medium">${work.id} — ${work.client}</span>
+                        <span class="text-sm text-gray-300 font-light">${work.title}</span>
+                    </div>
+                `;
+                workGrid.appendChild(card);
+            });
 
-            // Atualiza o ponto ativo ao arrastar/rolar
-            workGrid.addEventListener('scroll', () => {
-                if (window.innerWidth >= 768) return;
-                const cards = workGrid.querySelectorAll('.work-card');
-                let activeIndex = 0;
-                let minDistance = Infinity;
-                
-                cards.forEach((card, i) => {
-                    const distance = Math.abs(card.getBoundingClientRect().left - workGrid.getBoundingClientRect().left);
-                    if (distance < minDistance) {
-                        minDistance = distance;
-                        activeIndex = i;
-                    }
-                });
-                updateDots(activeIndex);
-            }, { passive: true });
-
-            function scrollNextCard() {
-                if (window.innerWidth >= 768) return; // Roda apenas no celular
-                
-                const cards = workGrid.querySelectorAll('.work-card');
-                if (!cards.length) return;
-                
-                const cardWidth = cards[0].offsetWidth;
-                const maxScroll = workGrid.scrollWidth - workGrid.clientWidth;
-                
-                // Se chegou no fim, rola de volta para o começo suavemente
-                if (workGrid.scrollLeft >= maxScroll - 10) {
-                    workGrid.scrollTo({ left: 0, behavior: 'smooth' });
-                } else {
-                    // Avança para o próximo card (largura do card + gap do grid)
-                    workGrid.scrollBy({ left: cardWidth + 16, behavior: 'smooth' });
-                }
-            }
+            // --- LÓGICA DE CARROSSEL AUTOMÁTICO (MOBILE) SEM PONTOS ---
+            // Rola continuamente, mas permite que o usuário arraste livremente
+            let autoScrollInterval;
 
             function startAutoScroll() {
-                stopAutoScroll();
-                // Avança de card em card a cada 3 segundos
-                autoScrollInterval = setInterval(scrollNextCard, 3000);
+                if (window.innerWidth >= 768) return; // Só rola no celular
+                
+                autoScrollInterval = setInterval(() => {
+                    const maxScroll = workGrid.scrollWidth - workGrid.clientWidth;
+                    if (workGrid.scrollLeft >= maxScroll - 10) {
+                        workGrid.scrollTo({ left: 0, behavior: 'smooth' }); // Volta ao início
+                    } else {
+                        workGrid.scrollBy({ left: 150, behavior: 'smooth' }); // Rola um pouquinho
+                    }
+                }, 2500);
             }
 
             function stopAutoScroll() {
                 if (autoScrollInterval) clearInterval(autoScrollInterval);
             }
 
-            function handleUserInteraction() {
-                stopAutoScroll(); // Pausa o carrossel automático ao arrastar com o dedo
-                if (interactionTimeout) clearTimeout(interactionTimeout);
-                // Retoma automaticamente após 4 segundos sem o usuário mexer
-                interactionTimeout = setTimeout(startAutoScroll, 4000);
-            }
-
-            // Detecta interações (arrastar/tocar) no Mobile
-            workGrid.addEventListener('touchstart', handleUserInteraction, { passive: true });
-            workGrid.addEventListener('touchmove', handleUserInteraction, { passive: true });
-            workGrid.addEventListener('mousedown', handleUserInteraction, { passive: true });
+            // Pausa o carrossel se o usuário estiver mexendo
+            workGrid.addEventListener('touchstart', stopAutoScroll, { passive: true });
+            workGrid.addEventListener('touchend', () => {
+                setTimeout(startAutoScroll, 3000); // Retoma depois de 3 segundos
+            }, { passive: true });
 
             startAutoScroll();
 
@@ -673,8 +649,10 @@
                     iframe.src = card.getAttribute('data-video');
                     modal.classList.add('active');
                     document.body.style.overflow = 'hidden';
-                    // Esconde o header para não atrapalhar o vídeo no mobile
-                    mainHeader.style.display = 'none'; 
+                    // Esconde o header para o vídeo ficar limpo no mobile
+                    if(window.innerWidth < 1024) {
+                        mainHeader.style.display = 'none'; 
+                    }
                 });
             });
 
@@ -695,10 +673,9 @@
             const focusWords = focusSentence.split(' ');
             
             const wordElements = [];
-            // Cria os elementos span para cada palavra e os insere antes do frame (para que o frame fique por cima)
             focusWords.forEach((wordStr, index) => {
                 const span = document.createElement('span');
-                span.className = 'focus-word blurred'; // Começam desfocadas
+                span.className = 'focus-word blurred'; 
                 span.textContent = wordStr;
                 span.dataset.index = index;
                 trueFocusWrapper.insertBefore(span, focusFrame);
@@ -708,10 +685,8 @@
             let currentFocusIndex = 0;
             let focusInterval;
             
-            // Queremos 4 segundos cravados para ler as 3 palavras antes de fechar a intro.
-            // 3 palavras * (0.4s + 0.9s) = aprox 3.9 segundos totais.
-            const animationDuration = 0.4; // Segundos da transição do quadrado
-            const pauseBetween = 0.9; // Tempo parado na palavra
+            const animationDuration = 0.4;
+            const pauseBetween = 0.9; 
 
             function updateFocusRect(index) {
                 if (index < 0 || index >= wordElements.length) return;
@@ -720,13 +695,11 @@
                 const containerRect = trueFocusWrapper.getBoundingClientRect();
                 const wordRect = activeWord.getBoundingClientRect();
 
-                // Calcula posição X, Y e tamanho exato da palavra focada
                 const x = wordRect.left - containerRect.left;
                 const y = wordRect.top - containerRect.top;
                 const w = wordRect.width;
                 const h = wordRect.height;
 
-                // Lógica de desfoque
                 wordElements.forEach((el, i) => {
                     if (i === index) {
                         el.classList.remove('blurred');
@@ -737,7 +710,6 @@
                     }
                 });
 
-                // Move o frame quadrado usando GSAP com física semelhante à do React Bits
                 if (typeof gsap !== 'undefined') {
                     gsap.to(focusFrame, {
                         x: x,
@@ -752,21 +724,17 @@
                 }
             }
 
-            // Inicia o Auto Focus da Intro
             function startAutoFocus() {
                 updateFocusRect(currentFocusIndex);
-                
                 focusInterval = setInterval(() => {
                     currentFocusIndex = (currentFocusIndex + 1) % focusWords.length;
                     updateFocusRect(currentFocusIndex);
                 }, (animationDuration + pauseBetween) * 1000);
             }
 
-            // Executa a animação do True Focus logo que a tela carrega
             setTimeout(() => {
                 if(!introFinished) startAutoFocus();
-            }, 300); // pequeno delay para CSS renderizar as dimensões
-
+            }, 300);
 
             // --- INTRO SEQUENCE ---
             const introScreen = document.getElementById('intro-screen');
@@ -780,7 +748,7 @@
                 if (introFinished) return;
                 introFinished = true;
                 
-                if(focusInterval) clearInterval(focusInterval); // Pára o efeito de foco
+                if(focusInterval) clearInterval(focusInterval);
 
                 introScreen.style.opacity = '0';
                 setTimeout(() => {
@@ -793,14 +761,11 @@
             if (btnPc) btnPc.addEventListener('click', finishIntro);
             if (btnMobile) btnMobile.addEventListener('click', finishIntro);
             
-            // A ESCOLHA É OBRIGATÓRIA: O site não avança se o usuário não clicar na primeira vez.
-            // A chave sessionStorage garante que ele só terá que escolher na 1ª visita daquela aba.
             if (sessionStorage.getItem('introSeen')) {
                 finishIntro();
             } else {
                 sessionStorage.setItem('introSeen', 'true');
             }
-
 
             // --- TARGET CURSOR LOGIC (GSAP PORT) ---
             const isMobile = ('ontouchstart' in window) || window.innerWidth <= 1024;
@@ -933,7 +898,7 @@
                 window.addEventListener('mouseover', onEnter, { passive: true });
             }
 
-            // Menu Mobile e Links Suaves
+            // --- MENU MOBILE ---
             const mobileMenuBtn = document.getElementById('mobile-menu-btn');
             const closeMenuBtn = document.getElementById('close-menu-btn');
             const mobileMenu = document.getElementById('mobile-menu');
