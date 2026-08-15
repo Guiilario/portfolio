@@ -270,13 +270,17 @@
             transition: max-width 0.4s ease, aspect-ratio 0.4s ease;
         }
 
-        .iframe-container iframe {
+        /* Estilização nativa e limpa para a tag vídeo */
+        .iframe-container video {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             border: none;
+            background-color: #000;
+            object-fit: contain;
+            outline: none;
         }
         
         .nav-link { position: relative; }
@@ -631,7 +635,7 @@
     <div id="video-modal">
         <button id="close-modal" class="absolute top-6 right-6 text-white text-xs tracking-widest uppercase hover:opacity-70 z-50 p-4">FECHAR (X)</button>
         <div class="iframe-container" id="iframe-wrapper">
-            <iframe id="project-iframe" src="" allow="autoplay; fullscreen" allowfullscreen></iframe>
+            <video id="project-video" controls playsinline controlsList="nodownload"></video>
         </div>
     </div>
 
@@ -873,9 +877,9 @@
             }
             buildMarquee();
 
-            // --- LÓGICA DO VIDEO MODAL ---
+            // --- LÓGICA DO VIDEO MODAL COM PLAYER NATIVO LIMPO ---
             const modal = document.getElementById('video-modal');
-            const iframe = document.getElementById('project-iframe');
+            const videoElement = document.getElementById('project-video');
             const closeModal = document.getElementById('close-modal');
             const mainHeader = document.getElementById('main-header');
 
@@ -892,9 +896,23 @@
                         iframeWrapper.style.maxWidth = '450px';
                     }
 
-                    iframe.src = card.getAttribute('data-video');
+                    // Puxa o link e transforma em um link de transmissão nativa para a tag <video>
+                    const videoUrl = card.getAttribute('data-video');
+                    const idMatch = videoUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
+                    
+                    if (idMatch) {
+                        videoElement.src = `https://drive.google.com/uc?export=download&id=${idMatch[1]}`;
+                    } else {
+                        videoElement.src = videoUrl; 
+                    }
+
                     modal.classList.add('active');
                     document.body.style.overflow = 'hidden';
+                    
+                    // Inicia o vídeo sozinho quando abrir
+                    setTimeout(() => { 
+                        videoElement.play().catch(e => console.log('O navegador bloqueou o autoplay', e)); 
+                    }, 100);
                     
                     if(window.innerWidth < 1024) {
                         mainHeader.style.display = 'none'; 
@@ -904,7 +922,8 @@
 
             closeModal.addEventListener('click', () => {
                 modal.classList.remove('active');
-                setTimeout(() => { iframe.src = ''; }, 400);
+                videoElement.pause();
+                setTimeout(() => { videoElement.src = ''; }, 400);
                 document.body.style.overflow = 'auto';
                 mainHeader.style.display = 'flex'; 
             });
