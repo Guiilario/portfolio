@@ -83,6 +83,17 @@
 
         ::-webkit-scrollbar { width: 0px; background: transparent; }
 
+        /* Partículas Background */
+        #particles-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
         /* Intro Animation */
         #intro-screen {
             position: fixed;
@@ -320,6 +331,9 @@
     </style>
 </head>
 <body class="antialiased selection:bg-gray-700 selection:text-white">
+
+    <!-- Background das Partículas -->
+    <canvas id="particles-background"></canvas>
 
     <div id="target-cursor" class="target-cursor-wrapper">
         <div class="target-cursor-dot"></div>
@@ -638,6 +652,143 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
 
+            // --- LÓGICA DO BACKGROUND DE PARTÍCULAS (REACT BITS CONVERTIDO PARA VANILLA JS) ---
+            (function() {
+                // Respeitar preferência do sistema para reduzir movimento
+                const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                if (prefersReducedMotion) return;
+
+                const canvas = document.getElementById('particles-background');
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+                
+                let width, height;
+                let particles = [];
+                
+                // Configurações solicitadas
+                const config = {
+                    particleColors: ["#ffffff"],
+                    particleCount: 800,
+                    particleSpread: 30,
+                    speed: 0.1,
+                    particleBaseSize: 100, // Ajustado matematicamente abaixo para o canvas
+                    moveParticlesOnHover: true,
+                    alphaParticles: false,
+                    disableRotation: false
+                };
+
+                let mouse = { x: -1000, y: -1000 };
+
+                if (config.moveParticlesOnHover) {
+                    window.addEventListener('mousemove', (e) => {
+                        mouse.x = e.clientX;
+                        mouse.y = e.clientY;
+                    });
+                    window.addEventListener('mouseout', () => {
+                        mouse.x = -1000;
+                        mouse.y = -1000;
+                    });
+                }
+
+                function resize() {
+                    width = canvas.width = window.innerWidth;
+                    height = canvas.height = window.innerHeight;
+                }
+                window.addEventListener('resize', resize);
+                resize();
+
+                class Particle {
+                    constructor() {
+                        this.x = Math.random() * width;
+                        this.y = Math.random() * height;
+                        
+                        // Escalonando particleBaseSize para um tamanho razoável no canvas (px)
+                        this.size = Math.random() * (config.particleBaseSize / 30) + 0.5;
+                        
+                        const angle = Math.random() * Math.PI * 2;
+                        this.vx = Math.cos(angle) * (Math.random() * config.speed + config.speed / 2);
+                        this.vy = Math.sin(angle) * (Math.random() * config.speed + config.speed / 2);
+                        
+                        this.color = config.particleColors[Math.floor(Math.random() * config.particleColors.length)];
+                        this.rotation = Math.random() * Math.PI * 2;
+                        this.rotationSpeed = (Math.random() - 0.5) * 0.05;
+                        
+                        // Opacidade base para não ofuscar o texto ou o site (já que é branco sólido)
+                        this.alpha = config.alphaParticles ? (Math.random() * 0.8 + 0.2) : 0.4; 
+                    }
+
+                    update() {
+                        this.x += this.vx;
+                        this.y += this.vy;
+
+                        if (!config.disableRotation) {
+                            this.rotation += this.rotationSpeed;
+                        }
+
+                        // Interação hover repulsiva e sutil
+                        if (config.moveParticlesOnHover) {
+                            const dx = mouse.x - this.x;
+                            const dy = mouse.y - this.y;
+                            const distance = Math.sqrt(dx * dx + dy * dy);
+                            const interactionRadius = 150;
+
+                            if (distance < interactionRadius) {
+                                const forceDirectionX = dx / distance;
+                                const forceDirectionY = dy / distance;
+                                const force = (interactionRadius - distance) / interactionRadius;
+                                
+                                this.x -= forceDirectionX * force * 1.5;
+                                this.y -= forceDirectionY * force * 1.5;
+                            }
+                        }
+
+                        // Loop contínuo nos limites da tela
+                        if (this.x < -this.size) this.x = width + this.size;
+                        if (this.x > width + this.size) this.x = -this.size;
+                        if (this.y < -this.size) this.y = height + this.size;
+                        if (this.y > height + this.size) this.y = -this.size;
+                    }
+
+                    draw() {
+                        ctx.save();
+                        ctx.translate(this.x, this.y);
+                        if (!config.disableRotation) {
+                            ctx.rotate(this.rotation);
+                        }
+                        ctx.globalAlpha = this.alpha;
+                        ctx.fillStyle = this.color;
+                        ctx.beginPath();
+                        ctx.arc(0, 0, this.size, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.restore();
+                    }
+                }
+
+                function init() {
+                    particles = [];
+                    const isMobile = window.innerWidth < 768;
+                    // Reduz partículas pela metade no mobile para preservar a performance da GPU/Bateria
+                    const count = isMobile ? Math.floor(config.particleCount / 2) : config.particleCount;
+                    
+                    for (let i = 0; i < count; i++) {
+                        particles.push(new Particle());
+                    }
+                }
+
+                function animate() {
+                    ctx.clearRect(0, 0, width, height);
+                    for (let i = 0; i < particles.length; i++) {
+                        particles[i].update();
+                        particles[i].draw();
+                    }
+                    requestAnimationFrame(animate);
+                }
+
+                init();
+                animate();
+            })();
+            // --- FIM DA LÓGICA DE PARTÍCULAS ---
+
             // --- TRADUÇÕES ---
             const translations = {
                 pt: {
@@ -863,7 +1014,6 @@
                 let html = '';
                 // Duplica a lista para o scroll infinito
                 [...clientsData, ...clientsData].forEach(client => {
-                    // USO ESTRITO DE CLASSES TAILWIND PARA O DESIGN DA PÍLULA E PREVENÇÃO DE QUEBRA
                     html += `
                     <a href="https://instagram.com/${client.name.replace('@','')}" target="_blank" class="flex items-center gap-3 px-5 py-2 mx-3 border border-themeBorder rounded-full hover-target group hover:bg-themeBorder transition-all duration-300 w-max shrink-0">
                         <img src="https://drive.google.com/thumbnail?id=${client.img}&sz=w150-h150" alt="${client.name}" class="w-8 h-8 rounded-full object-cover shrink-0 border border-themeBorder">
@@ -1176,3 +1326,5 @@
     </script>
 </body>
 </html>
+
+```
