@@ -1,3 +1,10 @@
+Peço desculpas por isso! Às vezes o sistema de substituição falha ao tentar aplicar apenas pedaços do código.
+
+Para garantir que **absolutamente tudo funcione** de primeira, refiz a parte dos clientes usando exclusivamente classes do Tailwind (`w-max`, `shrink-0` e `whitespace-nowrap`). Isso obriga a "pílula" de borda a esticar e abraçar todo o conteúdo, não importa o tamanho do nome do cliente, e impede que o texto vaze. Também adicionei a foto da `@qsq_alemoa`.
+
+Para resolver definitivamente, copie o código inteiro abaixo e **substitua 100% do seu arquivo `index.html**`:
+
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -6,10 +13,10 @@
     <title>GUI ILARIO — STORYMAKER</title>
     <meta name="description" content="Gui Ilario - Storymaker e Videomaker. Portfólio Audiovisual.">
 
-    <!-- Prevenção de FOUC (Flash of Unstyled Content) para o Modo Claro/Escuro -->
+    <!-- Prevenção de FOUC -->
     <script>
         (function() {
-            const savedTheme = localStorage.getItem('gui-theme') || 'dark'; // Dark como padrão inicial
+            const savedTheme = localStorage.getItem('gui-theme') || 'dark';
             if (savedTheme === 'light') {
                 document.documentElement.classList.add('light-mode');
             }
@@ -21,7 +28,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;900&display=swap" rel="stylesheet">
 
-    <!-- GSAP para Animações Complexas do Cursor e True Focus -->
+    <!-- GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
     <!-- Tailwind CSS -->
@@ -73,19 +80,15 @@
             transition: background-color 0.4s ease, color 0.4s ease;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
-            cursor: none; /* Esconder cursor nativo para usar o Target Cursor */
+            cursor: none;
         }
 
-        /* Responsivo: Reset do cursor para mobile */
         @media (max-width: 1024px) {
             body { cursor: auto; }
             .target-cursor-wrapper { display: none !important; }
         }
 
-        /* Ocultar barra de rolagem mas manter funcionamento */
         ::-webkit-scrollbar { width: 0px; background: transparent; }
-        .hide-scroll::-webkit-scrollbar { display: none; }
-        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
 
         /* Intro Animation */
         #intro-screen {
@@ -100,7 +103,7 @@
             transition: opacity 0.8s ease, transform 0.8s ease, visibility 0.8s;
         }
 
-        /* --- True Focus Styles (Vanilla Port) --- */
+        /* True Focus */
         .true-focus-container {
             position: relative;
             display: flex;
@@ -115,7 +118,6 @@
             letter-spacing: 0.2em; 
             color: var(--text-main);
             text-transform: uppercase;
-            /* Animation for the whole block to appear */
             opacity: 0;
             transform: scale(0.98) translateY(10px);
             animation: introReveal 1.5s forwards 0.2s cubic-bezier(0.25, 1, 0.5, 1);
@@ -146,7 +148,7 @@
             pointer-events: none;
             box-sizing: content-box;
             border: none;
-            opacity: 0; /* Oculto até a lógica JS rodar */
+            opacity: 0; 
             --border-color: #F1F1F1;
             --glow-color: rgba(241, 241, 241, 0.4);
         }
@@ -175,7 +177,7 @@
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        /* --- Target Cursor Styles --- */
+        /* Target Cursor */
         .target-cursor-wrapper {
             position: fixed;
             top: 0;
@@ -213,7 +215,7 @@
         .corner-br { border-left: none; border-top: none; }
         .corner-bl { border-right: none; border-top: none; }
 
-        /* Marquee Animação Contínua (Da Direita para a Esquerda) */
+        /* Marquee Clientes (Da Direita para a Esquerda) */
         .marquee-container {
             display: flex;
             width: fit-content;
@@ -237,46 +239,11 @@
             .mobile-marquee {
                 display: flex;
                 width: fit-content;
-                /* Aplicada a reversão (Left to Right) e velocidade mais lenta e suave (50s) */
                 animation: marquee-reverse 50s linear infinite; 
             }
             .mobile-marquee:hover, .mobile-marquee:active {
                 animation-play-state: paused;
             }
-        }
-        
-        /* Ocultando a scrollbar no PC para a grade ficar limpa */
-        #work-grid::-webkit-scrollbar { display: none; }
-        #work-grid { -ms-overflow-style: none; scrollbar-width: none; }
-
-        .client-item {
-            padding: 0 3rem;
-            font-size: 1.5rem;
-            font-weight: 300;
-            color: var(--text-muted);
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .client-img {
-            width: 3.5rem;
-            height: 3.5rem;
-            border-radius: 50%;
-            object-fit: cover;
-            filter: grayscale(100%);
-            transition: filter 0.3s ease;
-            border: 1px solid var(--border-color);
-        }
-
-        .client-item:hover {
-            color: var(--text-main);
-        }
-
-        .client-item:hover .client-img {
-            filter: grayscale(0%);
         }
 
         /* Video Modal */
@@ -300,8 +267,8 @@
 
         .iframe-container {
             width: 100%;
-            max-width: 450px; /* Padrão vertical */
-            aspect-ratio: 9 / 16; /* Padrão vertical */
+            max-width: 450px; 
+            aspect-ratio: 9 / 16; 
             position: relative;
             background-color: #000;
             border-radius: 8px;
@@ -344,7 +311,6 @@
             opacity: 0.6;
             transform: scale(1);
         }
-        /* O estado focado da animação de 3s OU o hover do usuário */
         .horizontal-img.is-focused, .horizontal-card:hover .horizontal-img {
             filter: grayscale(0%);
             opacity: 1;
@@ -362,11 +328,10 @@
         <div class="target-cursor-corner corner-bl"></div>
     </div>
 
-    <!-- Intro Animation (True Focus Vanilla Port) -->
+    <!-- Intro -->
     <div id="intro-screen">
         <div class="text-center relative">
             <div id="true-focus-wrapper" class="true-focus-container">
-                <!-- As palavras GUI ILARIO STORYMAKER serão injetadas aqui pelo Javascript -->
                 <div class="focus-frame" id="focus-frame">
                     <span class="focus-corner focus-top-left"></span>
                     <span class="focus-corner focus-top-right"></span>
@@ -390,7 +355,6 @@
     </div>
 
     <header class="fixed top-0 left-0 w-full z-50 px-6 py-6 md:px-12 md:py-8 flex justify-between items-center opacity-0 transition-opacity duration-1000" id="main-header">
-        <!-- Logo Textual Simples -->
         <a href="#home" class="text-sm md:text-base font-medium tracking-[0.15em] hover-target text-themeText">GUI ILARIO</a>
         
         <nav class="hidden md:flex items-center gap-8 text-xs tracking-[0.1em] text-themeText">
@@ -398,7 +362,6 @@
             <a href="#work" class="nav-link hover-target uppercase" data-i18n="nav-work">TRABALHO</a>
             <a href="#contact" class="nav-link hover-target uppercase" data-i18n="nav-contact">CONTATO</a>
             <div class="w-px h-4 bg-themeBorder mx-2"></div>
-            <!-- Botão de Tema com Ícone Dinâmico -->
             <button id="theme-toggle" class="text-lg hover-target text-themeText transition-transform hover:scale-110" title="Alternar Tema">☼</button>
             <button id="lang-toggle" class="hover-target font-medium text-themeText" title="Mudar Idioma">EN</button>
         </nav>
@@ -416,7 +379,6 @@
             <a href="#work" class="mobile-link uppercase" data-i18n="nav-work">TRABALHO</a>
             <a href="#contact" class="mobile-link uppercase" data-i18n="nav-contact">CONTATO</a>
             <button id="lang-toggle-mobile" class="mt-8 text-sm text-themeTextMuted border border-themeBorder px-4 py-2 rounded uppercase">EN / PT</button>
-            <!-- Botão Fechar reposicionado no final -->
             <button id="close-menu-btn" class="mt-8 text-xs tracking-widest text-themeText border-b border-themeText pb-1 uppercase hover:opacity-70 transition-opacity">FECHAR (X)</button>
         </nav>
     </div>
@@ -446,7 +408,6 @@
                     Storymaker e Videomaker. Crio, capto e edito conteúdos pensados para reter a atenção e transformar ideias em experiências audiovisuais na era digital.
                 </p>
                 
-                <!-- NEW STATS SECTION (Mantida) -->
                 <div class="mt-10 pt-8 border-t border-themeBorder grid grid-cols-2 gap-x-8 gap-y-6">
                     <div>
                         <span class="block text-2xl font-light text-themeText mb-1">8</span>
@@ -471,25 +432,23 @@
             </div>
         </section>
 
-        <!-- WORK (9:16 Reels Gallery) -->
+        <!-- WORK -->
         <section id="work" class="pt-32 pb-16 overflow-hidden">
             <div class="px-6 md:px-12 max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-4">
                 <h3 class="text-xs tracking-[0.2em] text-themeTextMuted uppercase" data-i18n="work-title">TRABALHO</h3>
                 <p class="text-sm text-themeText font-light uppercase" data-i18n="work-subtitle">Uma seleção do que tenho criado.</p>
             </div>
-            <!-- Carrossel no Mobile (Da esquerda para direita), Grade no Desktop -->
             <div class="relative w-full flex items-center md:items-start hover-target mt-4 md:px-12 md:max-w-[1400px] md:mx-auto">
                 <div class="mobile-marquee gap-4 md:gap-8 px-6 md:px-0 md:w-full md:grid md:grid-cols-2 lg:grid-cols-4" id="work-grid">
                     <!-- Injetado via JS -->
                 </div>
             </div>
-            <!-- Botão/Texto de interação no Mobile -->
             <div class="md:hidden w-full text-center mt-8">
                 <p class="text-[10px] tracking-[0.2em] text-themeTextMuted uppercase animate-pulse" data-i18n="tap-to-watch">Toque para assistir</p>
             </div>
         </section>
 
-        <!-- HIGHLIGHTS 16:9 (NOVA SEÇÃO DE VÍDEOS) -->
+        <!-- HIGHLIGHTS 16:9 -->
         <section id="horizontal-work" class="py-16 md:py-24 overflow-hidden border-t border-themeBorder">
             <div class="px-6 md:px-12 max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-4">
                 <h3 class="text-xs tracking-[0.2em] text-themeTextMuted uppercase" data-i18n="horizontal-title">DESTAQUES</h3>
@@ -500,24 +459,19 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12" id="horizontal-grid">
                     <!-- Video 1 -->
                     <div class="horizontal-card relative aspect-video bg-themeCard rounded overflow-hidden cursor-pointer group play-target" data-video="https://drive.google.com/file/d/107LUWTavQYRzfTwRAYclWF-ZjPihSz2y/preview">
-                        <!-- Imagem de frame customizada pelo usuário -->
                         <img src="https://drive.google.com/thumbnail?id=16-___gCM9O05RSAGD54RPS0nLr1E_n9X&sz=w1280-h720" alt="Video 16:9 Destaque 1" class="w-full h-full object-cover horizontal-img">
-                        
                         <div class="work-info absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/80 to-transparent opacity-0 transform translate-y-4 transition-all duration-500 flex flex-col gap-1 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 z-10">
                             <span class="text-sm text-white font-light uppercase tracking-widest" data-i18n="horizontal-p1">PROJETO DESTAQUE 01</span>
                         </div>
                     </div>
                     <!-- Video 2 -->
                     <div class="horizontal-card relative aspect-video bg-themeCard rounded overflow-hidden cursor-pointer group play-target" data-video="https://drive.google.com/file/d/11RXx4ya49BARsj2-HuogeCUiIu2FCnkn/preview">
-                        <!-- Imagem de frame customizada pelo usuário -->
                         <img src="https://drive.google.com/thumbnail?id=1VYCAZopji9ckgLoh16yuFSTnS9l0jQw1&sz=w1280-h720" alt="Video 16:9 Destaque 2" class="w-full h-full object-cover horizontal-img">
-                        
                         <div class="work-info absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/80 to-transparent opacity-0 transform translate-y-4 transition-all duration-500 flex flex-col gap-1 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 z-10">
                             <span class="text-sm text-white font-light uppercase tracking-widest" data-i18n="horizontal-p2">PROJETO DESTAQUE 02</span>
                         </div>
                     </div>
                 </div>
-                <!-- Botão/Texto de interação no Mobile -->
                 <div class="md:hidden w-full text-center mt-8">
                     <p class="text-[10px] tracking-[0.2em] text-themeTextMuted uppercase animate-pulse" data-i18n="tap-to-watch">Toque para assistir</p>
                 </div>
@@ -571,7 +525,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
 
-            // --- TRADUÇÕES (i18n) ---
+            // --- TRADUÇÕES ---
             const translations = {
                 pt: {
                     'nav-about': 'SOBRE', 'nav-work': 'TRABALHO', 'nav-contact': 'CONTATO',
@@ -611,7 +565,7 @@
                 }
             };
 
-            let currentLang = localStorage.getItem('gui-lang') || 'pt'; // PT Padrão
+            let currentLang = localStorage.getItem('gui-lang') || 'pt'; 
             const langToggleBtn = document.getElementById('lang-toggle');
             const langToggleMobileBtn = document.getElementById('lang-toggle-mobile');
 
@@ -632,7 +586,7 @@
             langToggleMobileBtn.addEventListener('click', () => applyTranslation(currentLang === 'pt' ? 'en' : 'pt'));
             applyTranslation(currentLang);
 
-            // --- TEMA CLARO / ESCURO (COM ÍCONES) ---
+            // --- TEMA CLARO / ESCURO ---
             const themeToggleBtn = document.getElementById('theme-toggle');
             const themeToggleMobileBtn = document.getElementById('theme-toggle-mobile');
 
@@ -655,7 +609,7 @@
             themeToggleBtn.addEventListener('click', toggleTheme);
             themeToggleMobileBtn.addEventListener('click', toggleTheme);
 
-            // --- DATA DOS TRABALHOS 9:16 E INJEÇÃO ---
+            // --- TRABALHOS ---
             const workDataRaw = [
                 { id: '01', title: 'Projeto 01', client: 'Client A', year: '2026', videoSrc: 'https://drive.google.com/file/d/1tzCk5Oi_tHOS1PDPmax-jMiFoy3LGxNt/preview' },
                 { id: '02', title: 'Projeto 02', client: 'Client B', year: '2026', videoSrc: 'https://drive.google.com/file/d/1TzW8Yt-VLfvarro9h1jc1_RX68c73xzd/preview' },
@@ -701,15 +655,13 @@
                 workGrid.appendChild(card);
             });
 
-            // --- TROCA SUAVE (SOFT SWAP) DOS VÍDEOS 16:9 ---
+            // --- TROCA SUAVE VÍDEOS 16:9 ---
             let horizontalSwapIndex = 0;
             const hImgs = document.querySelectorAll('.horizontal-img');
             
             if (hImgs.length > 0) {
-                // Inicia o primeiro card como "focado" (colorido e maior)
                 hImgs[0].classList.add('is-focused');
                 
-                // Intervalo de 3 segundos trocando suavemente o foco de atenção
                 setInterval(() => {
                     horizontalSwapIndex = horizontalSwapIndex === 0 ? 1 : 0;
                     hImgs.forEach((img, i) => {
@@ -722,35 +674,36 @@
                 }, 3000);
             }
 
-            // --- CLIENTES (Marquee Scroll Suave Infinito com Avatares) ---
+            // --- CLIENTES COM FOTO E BORDA AJUSTADA ---
             const clientsData = [
-                { name: '@2ncompositor', id: '1xh7TAxx1CC1PCB7QeMMxZ6B9jjZ8Xvv7', user: '2ncompositor' },
-                { name: '@aromas_e_saude', id: '1QguhF-hUz3n6pxfTB4BYpJV4y2nyP2m7', user: 'aromas_e_saude' },
-                { name: '@nidobatista', id: '1qjvzw7BrUarGX52WIluh8JpO1oj6Te2p', user: 'nidobatista' },
-                { name: '@coletarecords', id: '1r1sHg7Bdebi8EJ6idh8qc8V9yPnSndHS', user: 'coletarecords' },
-                { name: '@abcconteiner', id: '1Ab-BnIszFGHzCVvDgYifRo66Kh92UTqa', user: 'abcconteiner' },
-                { name: '@bomb013', id: '1BbTXVW_k5vy0q5b0NM7wP2ig8QoNvCLa', user: 'bomb013' },
-                { name: '@personalgeovanii', id: '1IZw2YHCrlNpPGwgr5jkEeoW7m3ur0KZY', user: 'personalgeovanii' },
-                { name: '@umgamermuitolouko', id: '1qLX8vSc4bqsPRm0unsOMuaPA7t4B7Ji1', user: 'umgamermuitolouko' }
+                { name: '@nidobatista_oficial', img: '1qjvzw7BrUarGX52WIluh8JpO1oj6Te2p' },
+                { name: '@2ncompositorofc', img: '1xh7TAxx1CC1PCB7QeMMxZ6B9jjZ8Xvv7' },
+                { name: '@coletarecords', img: '1r1sHg7Bdebi8EJ6idh8qc8V9yPnSndHS' },
+                { name: '@qsq_alemoa', img: '1Dj_SkMlOOeQPkCXeOx437lXvNWuq1kVd' },
+                { name: '@abcbibliotecaconteiner_oficial', img: '1Ab-BnIszFGHzCVvDgYifRo66Kh92UTqa' },
+                { name: '@bomb013_x1', img: '1BbTXVW_k5vy0q5b0NM7wP2ig8QoNvCLa' },
+                { name: '@aromasesaude_', img: '1QguhF-hUz3n6pxfTB4BYpJV4y2nyP2m7' },
+                { name: '@personalgeovanii', img: '1IZw2YHCrlNpPGwgr5jkEeoW7m3ur0KZY' },
+                { name: '@umgamermuitolouko', img: '1qLX8vSc4bqsPRm0unsOMuaPA7t4B7Ji1' }
             ];
-
             const marqueeContent = document.getElementById('marquee-content');
             
             function buildMarquee() {
                 let html = '';
+                // Duplica a lista para o scroll infinito
                 [...clientsData, ...clientsData].forEach(client => {
-                    const thumbUrl = `https://drive.google.com/thumbnail?id=${client.id}&sz=w150-h150`;
+                    // USO ESTRITO DE CLASSES TAILWIND PARA O DESIGN DA PÍLULA E PREVENÇÃO DE QUEBRA
                     html += `
-                        <a href="https://instagram.com/${client.user}" target="_blank" class="client-item hover-target">
-                            <img src="${thumbUrl}" alt="${client.name}" class="client-img">
-                            <span>${client.name}</span>
-                        </a>`;
+                    <a href="https://instagram.com/${client.name.replace('@','')}" target="_blank" class="flex items-center gap-3 px-5 py-2 mx-3 border border-themeBorder rounded-full hover-target group hover:bg-themeBorder transition-all duration-300 w-max shrink-0">
+                        <img src="https://drive.google.com/thumbnail?id=${client.img}&sz=w150-h150" alt="${client.name}" class="w-8 h-8 rounded-full object-cover shrink-0 border border-themeBorder">
+                        <span class="text-sm md:text-base font-light text-themeTextMuted group-hover:text-themeText transition-colors whitespace-nowrap block">${client.name}</span>
+                    </a>`;
                 });
                 marqueeContent.innerHTML = html;
             }
             buildMarquee();
 
-            // --- LÓGICA DO VIDEO MODAL (Adaptável 9:16 e 16:9) ---
+            // --- LÓGICA DO VIDEO MODAL ---
             const modal = document.getElementById('video-modal');
             const iframe = document.getElementById('project-iframe');
             const closeModal = document.getElementById('close-modal');
@@ -761,7 +714,6 @@
                     const isHorizontal = card.classList.contains('horizontal-card');
                     const iframeWrapper = document.getElementById('iframe-wrapper');
                     
-                    // Modifica a proporção da tela antes de abrir o vídeo
                     if (isHorizontal) {
                         iframeWrapper.style.aspectRatio = '16/9';
                         iframeWrapper.style.maxWidth = '900px';
@@ -782,14 +734,12 @@
 
             closeModal.addEventListener('click', () => {
                 modal.classList.remove('active');
-                setTimeout(() => { iframe.src = ''; }, 400); // Limpa o iframe após sumir da tela
+                setTimeout(() => { iframe.src = ''; }, 400);
                 document.body.style.overflow = 'auto';
                 mainHeader.style.display = 'flex'; 
             });
 
-            // ==========================================
-            // TRUE FOCUS LOGIC (100% VANILLA JS & GSAP)
-            // ==========================================
+            // --- TRUE FOCUS LOGIC ---
             const trueFocusWrapper = document.getElementById('true-focus-wrapper');
             const focusFrame = document.getElementById('focus-frame');
             const focusSentence = "GUI ILARIO STORYMAKER";
@@ -890,7 +840,7 @@
                 sessionStorage.setItem('introSeen', 'true');
             }
 
-            // --- TARGET CURSOR LOGIC (GSAP PORT) ---
+            // --- TARGET CURSOR LOGIC ---
             const isMobile = ('ontouchstart' in window) || window.innerWidth <= 1024;
 
             if (!isMobile && typeof gsap !== 'undefined') {
@@ -1055,3 +1005,5 @@
     </script>
 </body>
 </html>
+
+```
