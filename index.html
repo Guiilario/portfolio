@@ -309,6 +309,14 @@
             opacity: 1;
             transform: scale(1.02);
         }
+
+        /* Ocultar seta padrão do details (FAQ) */
+        details > summary {
+            list-style: none;
+        }
+        details > summary::-webkit-details-marker {
+            display: none;
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-gray-700 selection:text-white">
@@ -475,7 +483,7 @@
         </section>
 
         <!-- CLIENTS -->
-        <section id="clients" class="py-24 border-y border-themeBorder overflow-hidden bg-themeBg">
+        <section id="clients" class="py-24 border-t border-themeBorder overflow-hidden bg-themeBg">
             <div class="px-6 md:px-12 mb-8">
                 <h3 class="text-xs tracking-[0.2em] text-themeTextMuted uppercase" data-i18n="clients-title">Últimos clientes - Julho / Agosto 2026</h3>
             </div>
@@ -486,8 +494,117 @@
             </div>
         </section>
 
+        <!-- CAMPANHA POLÍTICA -->
+        <section id="campaign" class="py-24 md:py-32 px-6 md:px-12 max-w-5xl mx-auto border-t border-themeBorder">
+            <h2 class="text-3xl md:text-5xl lg:text-6xl font-light tracking-tight text-themeText mb-12 leading-[1.1]" data-i18n="camp-title">
+                Sua campanha acontece todos os dias. Transforme essa rotina em conteúdo.
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+                <div>
+                    <p class="text-base md:text-lg text-themeTextMuted leading-relaxed font-light mb-6" data-i18n="camp-p1">
+                        Um storymaker acompanha a agenda do político, registra reuniões, eventos, viagens, bastidores e momentos do dia a dia — e transforma tudo em conteúdo ágil para as redes sociais.
+                    </p>
+                    <p class="text-base md:text-lg text-themeTextMuted leading-relaxed font-light" data-i18n="camp-p2">
+                        Você cuida da agenda e da comunicação política. Eu cuido de captar, editar e entregar os conteúdos que registram cada momento da campanha.
+                    </p>
+
+                    <h3 class="text-themeText font-medium mt-12 mb-6 uppercase tracking-[0.2em] text-xs" data-i18n="camp-why-title">
+                        Por que ter um storymaker acompanhando a campanha?
+                    </h3>
+                    <p class="text-sm md:text-base text-themeTextMuted leading-relaxed font-light" data-i18n="camp-why-p">
+                        Enquanto o candidato está focado em compromissos, reuniões, eventos e agenda pública, eu fico responsável por registrar os momentos importantes e transformar a rotina em conteúdo.
+                    </p>
+                </div>
+
+                <div class="bg-themeCard p-8 md:p-10 rounded">
+                    <h3 class="text-themeText font-medium uppercase tracking-[0.2em] text-xs mb-6" data-i18n="camp-inc-title">O que está incluso:</h3>
+                    <ul class="text-sm md:text-base text-themeTextMuted font-light space-y-4 mb-12">
+                        <li class="flex items-start gap-3"><span class="text-themeText mt-1">»</span> <span data-i18n="camp-inc-1">Cobertura da rotina e dos compromissos</span></li>
+                        <li class="flex items-start gap-3"><span class="text-themeText mt-1">»</span> <span data-i18n="camp-inc-2">Gravação de Stories, Reels e vídeos curtos</span></li>
+                        <li class="flex items-start gap-3"><span class="text-themeText mt-1">»</span> <span data-i18n="camp-inc-3">Edição rápida para redes sociais</span></li>
+                        <li class="flex items-start gap-3"><span class="text-themeText mt-1">»</span> <span data-i18n="camp-inc-4">Registro de bastidores e momentos espontâneos</span></li>
+                        <li class="flex items-start gap-3"><span class="text-themeText mt-1">»</span> <span data-i18n="camp-inc-5">Organização de uma linha de conteúdo durante a campanha</span></li>
+                        <li class="flex items-start gap-3"><span class="text-themeText mt-1">»</span> <span data-i18n="camp-inc-6">Acompanhamento presencial conforme a agenda</span></li>
+                    </ul>
+
+                    <div class="border-t border-themeBorder pt-8">
+                        <h3 class="text-themeText font-medium uppercase tracking-[0.2em] text-xs mb-4" data-i18n="camp-agenda-title">Agenda 2026</h3>
+                        <p class="text-sm text-themeTextMuted leading-relaxed font-light" data-i18n="camp-agenda-p">
+                            Estou abrindo minha agenda para novos projetos durante a campanha de 2026. Se você procura um profissional para acompanhar a rotina do político de forma próxima, ágil e constante, vamos conversar sobre a agenda e montar um formato de cobertura adequado à campanha.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq" class="py-24 px-6 md:px-12 max-w-4xl mx-auto border-t border-themeBorder">
+            <h3 class="text-xs tracking-[0.2em] text-themeTextMuted uppercase mb-12 text-center" data-i18n="faq-title">FAQ</h3>
+            <div class="space-y-6">
+                <details class="group border-b border-themeBorder pb-6 cursor-pointer">
+                    <summary class="flex justify-between items-center font-medium list-none text-themeText hover:text-themeTextMuted transition-colors uppercase tracking-wider text-xs md:text-sm hover-target">
+                        <span data-i18n="faq-q1">Você trabalha especificamente com campanhas políticas?</span>
+                        <span class="transition duration-300 group-open:rotate-45 text-xl font-light">+</span>
+                    </summary>
+                    <div class="text-themeTextMuted mt-4 font-light text-sm md:text-base leading-relaxed" data-i18n="faq-a1">
+                        Sim. Meu foco para 2026 é atender políticos e equipes de campanha, com acompanhamento de rotina, eventos e produção de conteúdo para redes sociais.
+                    </div>
+                </details>
+
+                <details class="group border-b border-themeBorder pb-6 cursor-pointer">
+                    <summary class="flex justify-between items-center font-medium list-none text-themeText hover:text-themeTextMuted transition-colors uppercase tracking-wider text-xs md:text-sm hover-target">
+                        <span data-i18n="faq-q2">Você acompanha o político durante a agenda?</span>
+                        <span class="transition duration-300 group-open:rotate-45 text-xl font-light">+</span>
+                    </summary>
+                    <div class="text-themeTextMuted mt-4 font-light text-sm md:text-base leading-relaxed" data-i18n="faq-a2">
+                        Sim. O formato pode ser planejado de acordo com a agenda, incluindo eventos, reuniões, viagens e outros compromissos.
+                    </div>
+                </details>
+
+                <details class="group border-b border-themeBorder pb-6 cursor-pointer">
+                    <summary class="flex justify-between items-center font-medium list-none text-themeText hover:text-themeTextMuted transition-colors uppercase tracking-wider text-xs md:text-sm hover-target">
+                        <span data-i18n="faq-q3">Você faz somente a gravação?</span>
+                        <span class="transition duration-300 group-open:rotate-45 text-xl font-light">+</span>
+                    </summary>
+                    <div class="text-themeTextMuted mt-4 font-light text-sm md:text-base leading-relaxed" data-i18n="faq-a3">
+                        Não. O serviço pode incluir todo o processo de captação, seleção, edição e entrega dos conteúdos.
+                    </div>
+                </details>
+
+                <details class="group border-b border-themeBorder pb-6 cursor-pointer">
+                    <summary class="flex justify-between items-center font-medium list-none text-themeText hover:text-themeTextMuted transition-colors uppercase tracking-wider text-xs md:text-sm hover-target">
+                        <span data-i18n="faq-q4">Posso contratar por diária ou fechar um período maior?</span>
+                        <span class="transition duration-300 group-open:rotate-45 text-xl font-light">+</span>
+                    </summary>
+                    <div class="text-themeTextMuted mt-4 font-light text-sm md:text-base leading-relaxed" data-i18n="faq-a4">
+                        Sim. Podemos trabalhar por diária, evento, período ou pacote de acompanhamento, de acordo com a necessidade da campanha.
+                    </div>
+                </details>
+
+                <details class="group border-b border-themeBorder pb-6 cursor-pointer">
+                    <summary class="flex justify-between items-center font-medium list-none text-themeText hover:text-themeTextMuted transition-colors uppercase tracking-wider text-xs md:text-sm hover-target">
+                        <span data-i18n="faq-q5">O conteúdo é entregue no mesmo dia?</span>
+                        <span class="transition duration-300 group-open:rotate-45 text-xl font-light">+</span>
+                    </summary>
+                    <div class="text-themeTextMuted mt-4 font-light text-sm md:text-base leading-relaxed" data-i18n="faq-a5">
+                        Dependendo do formato e da demanda, é possível trabalhar com entregas rápidas, inclusive durante a própria agenda.
+                    </div>
+                </details>
+
+                <details class="group border-b border-themeBorder pb-6 cursor-pointer">
+                    <summary class="flex justify-between items-center font-medium list-none text-themeText hover:text-themeTextMuted transition-colors uppercase tracking-wider text-xs md:text-sm hover-target">
+                        <span data-i18n="faq-q6">Você ainda tem disponibilidade para 2026?</span>
+                        <span class="transition duration-300 group-open:rotate-45 text-xl font-light">+</span>
+                    </summary>
+                    <div class="text-themeTextMuted mt-4 font-light text-sm md:text-base leading-relaxed" data-i18n="faq-a6">
+                        Sim. A agenda está sendo organizada para a campanha de 2026. Entre em contato para consultar disponibilidade e formatos de cobertura.
+                    </div>
+                </details>
+            </div>
+        </section>
+
         <!-- CONTACT -->
-        <section id="contact" class="py-32 px-6 md:px-12 flex flex-col items-center justify-center text-center">
+        <section id="contact" class="py-32 px-6 md:px-12 flex flex-col items-center justify-center text-center border-t border-themeBorder">
             <h2 class="text-3xl md:text-6xl font-light tracking-tight text-themeText mb-8 uppercase" data-i18n="contact-title">
                 VAMOS CRIAR ALGO?
             </h2>
@@ -538,7 +655,35 @@
                     'horizontal-title': 'DESTAQUES', 'horizontal-subtitle': 'Formatos Horizontais (16:9)',
                     'horizontal-p1': 'PROJETO DESTAQUE 01', 'horizontal-p2': 'PROJETO DESTAQUE 02',
                     'tap-to-watch': 'Toque para assistir',
-                    'clients-title': 'Últimos clientes - Julho / Agosto 2026', 'contact-title': 'VAMOS CRIAR ALGO?',
+                    'clients-title': 'Últimos clientes - Julho / Agosto 2026',
+                    'camp-title': 'Sua campanha acontece todos os dias. Transforme essa rotina em conteúdo.',
+                    'camp-p1': 'Um storymaker acompanha a agenda do político, registra reuniões, eventos, viagens, bastidores e momentos do dia a dia — e transforma tudo em conteúdo ágil para as redes sociais.',
+                    'camp-p2': 'Você cuida da agenda e da comunicação política. Eu cuido de captar, editar e entregar os conteúdos que registram cada momento da campanha.',
+                    'camp-why-title': 'Por que ter um storymaker acompanhando a campanha?',
+                    'camp-why-p': 'Enquanto o candidato está focado em compromissos, reuniões, eventos e agenda pública, eu fico responsável por registrar os momentos importantes e transformar a rotina em conteúdo.',
+                    'camp-inc-title': 'O que está incluso:',
+                    'camp-inc-1': 'Cobertura da rotina e dos compromissos',
+                    'camp-inc-2': 'Gravação de Stories, Reels e vídeos curtos',
+                    'camp-inc-3': 'Edição rápida para redes sociais',
+                    'camp-inc-4': 'Registro de bastidores e momentos espontâneos',
+                    'camp-inc-5': 'Organização de uma linha de conteúdo durante a campanha',
+                    'camp-inc-6': 'Acompanhamento presencial conforme a agenda',
+                    'camp-agenda-title': 'Agenda 2026',
+                    'camp-agenda-p': 'Estou abrindo minha agenda para novos projetos durante a campanha de 2026. Se você procura um profissional para acompanhar a rotina do político de forma próxima, ágil e constante, vamos conversar sobre a agenda e montar um formato de cobertura adequado à campanha.',
+                    'faq-title': 'FAQ',
+                    'faq-q1': 'Você trabalha especificamente com campanhas políticas?',
+                    'faq-a1': 'Sim. Meu foco para 2026 é atender políticos e equipes de campanha, com acompanhamento de rotina, eventos e produção de conteúdo para redes sociais.',
+                    'faq-q2': 'Você acompanha o político durante a agenda?',
+                    'faq-a2': 'Sim. O formato pode ser planejado de acordo com a agenda, incluindo eventos, reuniões, viagens e outros compromissos.',
+                    'faq-q3': 'Você faz somente a gravação?',
+                    'faq-a3': 'Não. O serviço pode incluir todo o processo de captação, seleção, edição e entrega dos conteúdos.',
+                    'faq-q4': 'Posso contratar por diária ou fechar um período maior?',
+                    'faq-a4': 'Sim. Podemos trabalhar por diária, evento, período ou pacote de acompanhamento, de acordo com a necessidade da campanha.',
+                    'faq-q5': 'O conteúdo é entregue no mesmo dia?',
+                    'faq-a5': 'Dependendo do formato e da demanda, é possível trabalhar com entregas rápidas, inclusive durante a própria agenda.',
+                    'faq-q6': 'Você ainda tem disponibilidade para 2026?',
+                    'faq-a6': 'Sim. A agenda está sendo organizada para a campanha de 2026. Entre em contato para consultar disponibilidade e formatos de cobertura.',
+                    'contact-title': 'VAMOS CRIAR ALGO?',
                     'contact-p': 'Se você tem uma marca, projeto ou ideia que precisa ganhar vida em vídeo, vamos conversar.',
                     'btn-talk': 'VAMOS CONVERSAR'
                 },
@@ -557,7 +702,35 @@
                     'horizontal-title': 'HIGHLIGHTS', 'horizontal-subtitle': 'Horizontal Formats (16:9)',
                     'horizontal-p1': 'FEATURED PROJECT 01', 'horizontal-p2': 'FEATURED PROJECT 02',
                     'tap-to-watch': 'Tap to watch',
-                    'clients-title': 'Latest clients - July / August 2026', 'contact-title': 'HAVE AN IDEA?',
+                    'clients-title': 'Latest clients - July / August 2026',
+                    'camp-title': 'Your campaign happens every day. Turn that routine into content.',
+                    'camp-p1': 'A storymaker follows the politician\'s agenda, records meetings, events, trips, behind the scenes, and everyday moments — and turns it all into agile content for social media.',
+                    'camp-p2': 'You take care of the agenda and political communication. I take care of capturing, editing, and delivering the content that records every moment of the campaign.',
+                    'camp-why-title': 'Why have a storymaker follow the campaign?',
+                    'camp-why-p': 'While the candidate is focused on appointments, meetings, events, and the public agenda, I am responsible for recording important moments and turning the routine into content.',
+                    'camp-inc-title': 'What\'s included:',
+                    'camp-inc-1': 'Coverage of routine and appointments',
+                    'camp-inc-2': 'Recording Stories, Reels, and short videos',
+                    'camp-inc-3': 'Fast editing for social media',
+                    'camp-inc-4': 'Behind the scenes and spontaneous moments recording',
+                    'camp-inc-5': 'Organizing a content timeline during the campaign',
+                    'camp-inc-6': 'In-person coverage according to the agenda',
+                    'camp-agenda-title': '2026 Agenda',
+                    'camp-agenda-p': 'I am opening my agenda for new projects during the 2026 campaign. If you are looking for a professional to closely, agilely, and constantly follow the politician\'s routine, let\'s talk about the agenda and set up a coverage format suitable for the campaign.',
+                    'faq-title': 'FAQ',
+                    'faq-q1': 'Do you work specifically with political campaigns?',
+                    'faq-a1': 'Yes. My focus for 2026 is to serve politicians and campaign teams, covering routines, events, and producing content for social media.',
+                    'faq-q2': 'Do you accompany the politician during the agenda?',
+                    'faq-a2': 'Yes. The format can be planned according to the agenda, including events, meetings, trips, and other commitments.',
+                    'faq-q3': 'Do you only do the recording?',
+                    'faq-a3': 'No. The service can include the entire process of capturing, selecting, editing, and delivering the content.',
+                    'faq-q4': 'Can I hire per day or for a longer period?',
+                    'faq-a4': 'Yes. We can work per day, event, period, or follow-up package, depending on the campaign\'s needs.',
+                    'faq-q5': 'Is the content delivered on the same day?',
+                    'faq-a5': 'Depending on the format and demand, it is possible to work with fast deliveries, even during the agenda itself.',
+                    'faq-q6': 'Do you still have availability for 2026?',
+                    'faq-a6': 'Yes. The agenda is being organized for the 2026 campaign. Get in touch to check availability and coverage formats.',
+                    'contact-title': 'HAVE AN IDEA?',
                     'contact-p': "If you have a brand, project, or idea that needs to come to life through video, let's talk.",
                     'btn-talk': "LET'S TALK"
                 }
@@ -878,7 +1051,7 @@
                 let tickerFn = null;
                 let resumeTimeout = null;
 
-                const targetSelector = 'a, button, .hover-target, .play-target, .work-card';
+                const targetSelector = 'a, button, .hover-target, .play-target, .work-card, details > summary';
 
                 function onEnter(e) {
                     const target = e.target.closest(targetSelector);
