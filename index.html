@@ -208,40 +208,39 @@
         .corner-br { border-left: none; border-top: none; }
         .corner-bl { border-right: none; border-top: none; }
 
-        /* Marquee Clientes e Kits */
+        /* Marquee Clientes e Kits (Infinito com Arrays Quadruplicados -25%) */
         .marquee-container {
             display: flex;
-            width: fit-content;
-            animation: marquee 25s linear infinite;
+            width: max-content;
+            animation: marquee-4x 25s linear infinite;
         }
         .marquee-container:hover, .marquee-container:active {
             animation-play-state: paused;
         }
         
         .marquee-container.slow {
-            animation: marquee 45s linear infinite; /* Marquee do Kit (mais lento) */
+            animation: marquee-4x 45s linear infinite; 
         }
 
-        @keyframes marquee {
+        @keyframes marquee-4x {
             0% { transform: translate3d(0, 0, 0); }
-            100% { transform: translate3d(-50%, 0, 0); } 
+            100% { transform: translate3d(-25%, 0, 0); } 
         }
 
         /* Marquee Reverso (Da Esquerda para a Direita - Para os Vídeos no Mobile) */
-        @keyframes marquee-reverse {
-            0% { transform: translate3d(-50%, 0, 0); }
-            100% { transform: translate3d(0%, 0, 0); } 
-        }
-
         @media (max-width: 767px) {
             .mobile-marquee {
                 display: flex;
-                width: fit-content;
+                width: max-content;
                 animation: marquee-reverse 50s linear infinite; 
             }
             .mobile-marquee:hover, .mobile-marquee:active {
                 animation-play-state: paused;
             }
+        }
+        @keyframes marquee-reverse {
+            0% { transform: translate3d(-50%, 0, 0); }
+            100% { transform: translate3d(0%, 0, 0); } 
         }
 
         /* Items do Carrossel de Kits / Logos */
@@ -255,13 +254,14 @@
             height: 80px;
             z-index: 1;
             cursor: pointer;
+            flex-shrink: 0;
         }
         @media (min-width: 768px) {
             .kit-item-wrapper { margin: 0 4rem; width: 120px; height: 120px; }
         }
 
         .kit-item-wrapper:hover {
-            z-index: 50; /* Sobrepõe os outros */
+            z-index: 50; 
         }
 
         .kit-img {
@@ -852,18 +852,18 @@
             themeToggleBtn.addEventListener('click', toggleTheme);
             themeToggleMobileBtn.addEventListener('click', toggleTheme);
 
-            // --- KIT & SOFTWARES (CARROSSEL COM 3 IMAGENS + DESCRIÇÃO) ---
+            // --- KIT & SOFTWARES (CARROSSEL COM ARRAY QUADRUPLICADO PARA LOOP PERFEITO) ---
             const kitData = [
                 { 
                     name: 'Claude', 
-                    color: '10qQdMf1xrTXZ7z4DBy3R_wqjNQ9_piPm', 
+                    color: '1pN_nQOq9u9qYFZG9kEo9w2yUFEw18cwO', 
                     light: '12O9zhHCVKJM0EOqCdiNFN9AQBtdxvm5U', 
                     dark: '1WTo5s-xKXVyDyo01SmpFlE54iFC8fyp1', 
                     desc: 'Claude gerador de conteúdos de IA' 
                 },
                 { 
                     name: 'Ableton live', 
-                    color: '1Dsmg6tRQ-s3ZgyoUIihS67Wr_TuSzxq7', 
+                    color: '1XRlFX59NsXBrEIn_TAKjoCRBYiLZafDQ', 
                     light: '1ZznpJc6k0uliGWxmK-GNg99BQkXh6Dt-', 
                     dark: '1edjjR99064BPnDCkluGEsEt8OKpClEWP', 
                     desc: 'DAW de edição profissional de áudio' 
@@ -877,7 +877,7 @@
                 },
                 { 
                     name: 'Capcut', 
-                    color: '1iMJmEK44SZ9KajsGQxfpXjcrcBdMcI-L', 
+                    color: '1fch6zra7nPAZlrUISIJlt5p6FVdrS7LT', 
                     light: '1ZPy3eSduZmfyOu55eX15PzctKClPnYbT', 
                     dark: '1t06Qmq0pASKRmSdm4FLyA7b9NJymSXkI', 
                     desc: 'Editor profissional de vídeos para celular' 
@@ -923,8 +923,8 @@
             
             function buildKitMarquee() {
                 let html = '';
-                // Duplica a lista para o scroll infinito do CSS rodar liso
-                [...kitData, ...kitData].forEach(item => {
+                // Duplicado 4x e animado em 25% para criar o scroll infinito contínuo e perfeito
+                [...kitData, ...kitData, ...kitData, ...kitData].forEach(item => {
                     html += `
                         <div class="kit-item-wrapper hover-target" data-desc="${item.desc}">
                             <img src="https://drive.google.com/thumbnail?id=${item.dark}&sz=w400" class="kit-img kit-dark" alt="${item.name}">
@@ -937,7 +937,6 @@
             }
             buildKitMarquee();
 
-            // Adiciona a lógica de revelar o texto abaixo do carrossel
             const kitDescText = document.getElementById('kit-desc-text');
             document.querySelectorAll('.kit-item-wrapper').forEach(wrapper => {
                 wrapper.addEventListener('mouseenter', () => {
@@ -1030,8 +1029,8 @@
             
             function buildMarquee() {
                 let html = '';
-                // Duplica a lista para o scroll infinito
-                [...clientsData, ...clientsData].forEach(client => {
+                // Duplicado 4x e animado em 25% para criar o scroll infinito contínuo
+                [...clientsData, ...clientsData, ...clientsData, ...clientsData].forEach(client => {
                     html += `
                     <a href="https://instagram.com/${client.name.replace('@','')}" target="_blank" class="flex items-center gap-3 px-5 py-2 mx-3 border border-themeBorder rounded-full hover-target group hover:bg-themeBorder transition-all duration-300 w-max shrink-0">
                         <img src="https://drive.google.com/thumbnail?id=${client.img}&sz=w150-h150" alt="${client.name}" class="w-8 h-8 rounded-full object-cover shrink-0 border border-themeBorder">
