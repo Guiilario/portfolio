@@ -208,7 +208,7 @@
         .corner-br { border-left: none; border-top: none; }
         .corner-bl { border-right: none; border-top: none; }
 
-        /* Marquee Clientes (Da Direita para a Esquerda) */
+        /* Marquee Clientes e Kits */
         .marquee-container {
             display: flex;
             width: fit-content;
@@ -237,6 +237,44 @@
             .mobile-marquee:hover, .mobile-marquee:active {
                 animation-play-state: paused;
             }
+        }
+
+        /* Items do Carrossel de Kits / Logos */
+        .kit-item {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            filter: grayscale(100%);
+            transition: filter 0.4s ease, transform 0.4s ease;
+            margin: 0 2rem;
+            flex-shrink: 0;
+        }
+        @media (min-width: 768px) {
+            .kit-item { width: 120px; height: 120px; margin: 0 4rem; }
+        }
+
+        .kit-item:hover {
+            transform: scale(1.1);
+        }
+
+        .kit-equip:hover {
+            filter: grayscale(0%);
+        }
+
+        /* Logos: Inverter no Dark Mode para ficarem brancos */
+        body:not(.light-mode) .kit-logo {
+            filter: grayscale(100%) invert(1);
+        }
+        body:not(.light-mode) .kit-logo:hover {
+            filter: grayscale(0%) invert(1);
+        }
+
+        /* Logos: Originais pretos no Light Mode */
+        .light-mode .kit-logo {
+            filter: grayscale(100%);
+        }
+        .light-mode .kit-logo:hover {
+            filter: grayscale(0%);
         }
 
         /* Video Modal */
@@ -316,15 +354,6 @@
         }
         details > summary::-webkit-details-marker {
             display: none;
-        }
-
-        /* Truque para mesclar logos no fundo */
-        .blend-logos {
-            mix-blend-mode: screen;
-        }
-        .light-mode .blend-logos {
-            mix-blend-mode: multiply;
-            filter: invert(1);
         }
     </style>
 </head>
@@ -445,21 +474,14 @@
             </div>
         </section>
 
-        <!-- TOOLS & KIT DE ROTINA -->
-        <section id="tools" class="py-24 px-6 md:px-12 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center border-t border-themeBorder">
-            <!-- Logos -->
-            <div class="flex flex-col items-center justify-center">
-                <div class="w-full max-w-sm blend-logos hover-target">
-                    <img src="https://drive.google.com/thumbnail?id=1fuu2G_H8Meuk0vqBO-LXnulgG_Rv53PD&sz=w1000" alt="Softwares e Ferramentas" class="w-full h-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-500">
-                </div>
+        <!-- KIT & SOFTWARES (NOVO CARROSSEL) -->
+        <section id="kit" class="py-24 border-t border-themeBorder overflow-hidden bg-themeBg">
+            <div class="px-6 md:px-12 mb-12 text-center">
+                <h3 class="text-xs tracking-[0.2em] text-themeTextMuted uppercase" data-i18n="kit-title">Kit de gravação e transmissão + Softwares de edição áudio e vídeo</h3>
             </div>
-            
-            <!-- Equipamentos -->
-            <div class="flex flex-col items-center justify-center">
-                <h3 class="text-xs tracking-[0.2em] text-themeTextMuted mb-8 uppercase text-center" data-i18n="tools-hardware">Kit de Rotina</h3>
-                <div class="w-full max-w-sm hover-target">
-                    <!-- Filtros mantidos conforme solicitado anteriormente -->
-                    <img src="https://drive.google.com/thumbnail?id=17vUmEY70y0GzTo_4F8vcHPYVQsYviT2X&sz=w1000" alt="Kit de Rotina" class="w-full h-auto object-contain filter contrast-125 brightness-110 hover:scale-105 transition-transform duration-500">
+            <div class="relative w-full flex items-center hover-target">
+                <div class="marquee-container" id="kit-marquee-content">
+                    <!-- Injetado via JS -->
                 </div>
             </div>
         </section>
@@ -679,7 +701,7 @@
                     'stat-projects': 'Projetos entregues',
                     'stat-countries': 'Países filmando',
                     'stat-award': 'Premiação Storymaker',
-                    'tools-hardware': 'Kit de Rotina',
+                    'kit-title': 'Kit de gravação e transmissão + Softwares de edição áudio e vídeo',
                     'work-title': 'TRABALHO', 'work-subtitle': 'Uma seleção do que tenho criado.',
                     'horizontal-title': 'DESTAQUES', 'horizontal-subtitle': 'Formatos Horizontais (16:9)',
                     'horizontal-p1': 'PROJETO DESTAQUE 01', 'horizontal-p2': 'PROJETO DESTAQUE 02',
@@ -727,7 +749,7 @@
                     'stat-projects': 'Delivered projects',
                     'stat-countries': 'Countries shooting',
                     'stat-award': 'Storymaker Award',
-                    'tools-hardware': 'Routine Kit',
+                    'kit-title': 'Recording & Broadcasting Kit + Audio & Video Editing Software',
                     'work-title': 'WORK', 'work-subtitle': "A selection of what I've created.",
                     'horizontal-title': 'HIGHLIGHTS', 'horizontal-subtitle': 'Horizontal Formats (16:9)',
                     'horizontal-p1': 'FEATURED PROJECT 01', 'horizontal-p2': 'FEATURED PROJECT 02',
@@ -809,6 +831,38 @@
 
             themeToggleBtn.addEventListener('click', toggleTheme);
             themeToggleMobileBtn.addEventListener('click', toggleTheme);
+
+            // --- KIT & SOFTWARES (CARROSSEL) ---
+            const kitData = [
+                // Os itens marcados com type 'logo' vão inverter a cor (ficar brancos) no dark mode.
+                // Se algum desses for um equipamento e estiver invertendo errado, mude o type para 'equip'.
+                { id: '1GH1oU8AYD-zt3WowQiBv1Z3x6Q9JwZ7-', type: 'logo' },
+                { id: '1FK5n_5DrHTL4MEy4z6JWsFhlWvXzA835', type: 'logo' },
+                { id: '1CJbdVnD49YZSG_SjIVmR2ZrOJSH8jdt7', type: 'logo' },
+                { id: '1oyqnBXv34LX_LTuX4hOTY4iTpz9FqXqN', type: 'logo' },
+                { id: '1WdgQYUMOrp1wjkLqwiy-JU-MdUoKuFIf', type: 'logo' },
+                { id: '1x-kk8-s2WctEfEHAmUEgn2tGAOUyREwd', type: 'equip' },
+                { id: '1EQ3UqTtwwVIdjR_bEpEXE7rrO78nxMgP', type: 'equip' },
+                { id: '1BTR8CuBJeB1bWz8y2gMWb6pneceIW5pG', type: 'equip' },
+                { id: '1VNovxnCQJ7p2axvTfya7UOqX8gP6uyDu', type: 'equip' }
+            ];
+
+            const kitMarqueeContent = document.getElementById('kit-marquee-content');
+            
+            function buildKitMarquee() {
+                let html = '';
+                // Duplica a lista para o scroll infinito do CSS rodar liso
+                [...kitData, ...kitData].forEach(item => {
+                    const typeClass = item.type === 'logo' ? 'kit-logo' : 'kit-equip';
+                    html += `
+                        <img src="https://drive.google.com/thumbnail?id=${item.id}&sz=w400" 
+                             class="kit-item ${typeClass}" 
+                             alt="Kit Storymaker">
+                    `;
+                });
+                kitMarqueeContent.innerHTML = html;
+            }
+            buildKitMarquee();
 
             // --- TRABALHOS ---
             const workDataRaw = [
@@ -1080,7 +1134,7 @@
                 let tickerFn = null;
                 let resumeTimeout = null;
 
-                const targetSelector = 'a, button, .hover-target, .play-target, .work-card, details > summary';
+                const targetSelector = 'a, button, .hover-target, .play-target, .work-card, details > summary, .kit-item';
 
                 function onEnter(e) {
                     const target = e.target.closest(targetSelector);
