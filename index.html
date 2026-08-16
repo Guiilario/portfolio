@@ -277,8 +277,12 @@
             z-index: 50; /* Sobrepõe os outros */
         }
         html:not(.light-mode) .kit-item-wrapper:hover .kit-item {
-            /* Restaura a cor original e inverte luminosidade: preto vira branco, mantém matizes */
+            /* Restaura a cor original e inverte preto para branco e branco para preto (mantendo as cores vivas) */
             filter: invert(1) hue-rotate(180deg) brightness(1.2) contrast(1.1);
+        }
+        html:not(.light-mode) .kit-item-wrapper:hover .kit-item.force-mono {
+            /* Garante que os logos monocromáticos (Ableton, Capcut, Claude) fiquem SEMPRE 100% brancos no hover escuro */
+            filter: brightness(0) invert(1) !important; 
         }
 
         /* MODO CLARO */
@@ -290,10 +294,13 @@
             z-index: 50; /* Sobrepõe os outros */
         }
         .light-mode .kit-item-wrapper:hover .kit-item {
-            /* Restaura a cor original e inverte luminosidade: branco vira preto, mantém matizes */
+            /* Restaura a cor original e inverte branco para preto e preto para branco (mantendo as cores vivas) */
             filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(1.1);
         }
-
+        .light-mode .kit-item-wrapper:hover .kit-item.force-mono {
+            /* Garante que os logos monocromáticos (Ableton, Capcut, Claude) fiquem SEMPRE 100% pretos no hover claro */
+            filter: brightness(0) !important; 
+        }
 
         /* Video Modal */
         #video-modal {
@@ -743,7 +750,7 @@
                     'faq-q1': 'Você trabalha especificamente com campanhas políticas?',
                     'faq-a1': 'Sim. Meu foco para 2026 é atender políticos e equipes de campanha, com acompanhamento de rotina, eventos e produção de conteúdo para redes sociais.',
                     'faq-q2': 'Você acompanha o político durante a agenda?',
-                    'faq-a2': 'Sim. O formato pode ser planejado de acordo com a agenda, incluindo eventos, reuniões, viagens e outros compromissos.',
+                    'faq-a2': 'Sim. O formato pode ser planejado de acordo com a agenda, incluindo events, reuniões, viagens e outros compromissos.',
                     'faq-q3': 'Você faz somente a gravação?',
                     'faq-a3': 'Não. O serviço pode incluir todo o processo de captação, seleção, edição e entrega dos conteúdos.',
                     'faq-q4': 'Posso contratar por diária ou fechar um período maior?',
@@ -852,15 +859,17 @@
 
             // --- KIT & SOFTWARES (CARROSSEL) ---
             const kitData = [
-                '1GH1oU8AYD-zt3WowQiBv1Z3x6Q9JwZ7-',
-                '1FK5n_5DrHTL4MEy4z6JWsFhlWvXzA835',
-                '1CJbdVnD49YZSG_SjIVmR2ZrOJSH8jdt7',
-                '1oyqnBXv34LX_LTuX4hOTY4iTpz9FqXqN',
-                '1WdgQYUMOrp1wjkLqwiy-JU-MdUoKuFIf',
-                '1x-kk8-s2WctEfEHAmUEgn2tGAOUyREwd',
-                '1EQ3UqTtwwVIdjR_bEpEXE7rrO78nxMgP',
-                '1BTR8CuBJeB1bWz8y2gMWb6pneceIW5pG',
-                '1VNovxnCQJ7p2axvTfya7UOqX8gP6uyDu'
+                /* A ordem natural: Ableton, Premiere, Capcut, Claude, e depois os equipamentos. 
+                   Se algum não estiver ficando com a cor certa, basta inverter o valor de "forceMono" entre true ou false */
+                { id: '1GH1oU8AYD-zt3WowQiBv1Z3x6Q9JwZ7-', forceMono: true },  // Ableton
+                { id: '1FK5n_5DrHTL4MEy4z6JWsFhlWvXzA835', forceMono: false }, // Premiere Pro (Mantém as cores)
+                { id: '1CJbdVnD49YZSG_SjIVmR2ZrOJSH8jdt7', forceMono: true },  // Capcut
+                { id: '1oyqnBXv34LX_LTuX4hOTY4iTpz9FqXqN', forceMono: true },  // Claude
+                { id: '1WdgQYUMOrp1wjkLqwiy-JU-MdUoKuFIf', forceMono: false }, // Equipamentos
+                { id: '1x-kk8-s2WctEfEHAmUEgn2tGAOUyREwd', forceMono: false },
+                { id: '1EQ3UqTtwwVIdjR_bEpEXE7rrO78nxMgP', forceMono: false },
+                { id: '1BTR8CuBJeB1bWz8y2gMWb6pneceIW5pG', forceMono: false },
+                { id: '1VNovxnCQJ7p2axvTfya7UOqX8gP6uyDu', forceMono: false }
             ];
 
             const kitMarqueeContent = document.getElementById('kit-marquee-content');
@@ -868,11 +877,12 @@
             function buildKitMarquee() {
                 let html = '';
                 // Duplica a lista para o scroll infinito do CSS rodar liso
-                [...kitData, ...kitData].forEach(id => {
+                [...kitData, ...kitData].forEach(item => {
+                    const monoClass = item.forceMono ? 'force-mono' : '';
                     html += `
                         <div class="kit-item-wrapper hover-target">
-                            <img src="https://drive.google.com/thumbnail?id=${id}&sz=w400" 
-                                 class="kit-item" 
+                            <img src="https://drive.google.com/thumbnail?id=${item.id}&sz=w400" 
+                                 class="kit-item ${monoClass}" 
                                  alt="Kit Storymaker">
                         </div>
                     `;
