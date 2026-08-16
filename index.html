@@ -264,70 +264,32 @@
             z-index: 50; /* Sobrepõe os outros */
         }
 
-        .kit-item {
+        .kit-img {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             object-fit: contain;
-            transition: filter 0.4s ease, transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        /* Apenas a imagem dobra de tamanho */
-        .kit-item-wrapper:hover .kit-item {
+        /* Gestão dos temas e cores cruzadas (Fade in/out) */
+        .kit-img.kit-color { opacity: 0; }
+        .kit-img.kit-light { opacity: 0; }
+        .kit-img.kit-dark  { opacity: 1; }
+
+        .light-mode .kit-img.kit-dark  { opacity: 0; }
+        .light-mode .kit-img.kit-light { opacity: 1; }
+
+        /* Hover - Mostra a cor, esconde as P/B e dá scale apenas na imagem */
+        .kit-item-wrapper:hover .kit-img {
             transform: scale(2);
         }
+        .kit-item-wrapper:hover .kit-img.kit-color { opacity: 1; z-index: 2; }
+        .kit-item-wrapper:hover .kit-img.kit-dark  { opacity: 0; }
+        .kit-item-wrapper:hover .kit-img.kit-light { opacity: 0; }
 
-        /* Label com o Nome do Equipamento/Software */
-        .kit-label {
-            position: absolute;
-            bottom: -50px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 9px;
-            white-space: nowrap;
-            color: var(--text-main);
-            background-color: var(--bg-color);
-            padding: 6px 10px;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            text-align: center;
-            z-index: 60;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-        @media (min-width: 768px) {
-            .kit-label { bottom: -70px; font-size: 11px; padding: 8px 12px; }
-        }
-        
-        .kit-item-wrapper:hover .kit-label {
-            opacity: 1;
-            transform: translateX(-50%) translateY(-5px);
-        }
-
-        /* MODO ESCURO (Padrão) */
-        html:not(.light-mode) .kit-item {
-            filter: brightness(0) invert(1); /* Todos ficam em branco preenchido */
-        }
-        html:not(.light-mode) .kit-item-wrapper:hover .kit-item {
-            filter: invert(1) hue-rotate(180deg) brightness(1.2) contrast(1.1);
-        }
-        html:not(.light-mode) .kit-item-wrapper:hover .kit-item.force-mono {
-            filter: brightness(0) invert(1) !important; 
-        }
-
-        /* MODO CLARO */
-        .light-mode .kit-item {
-            filter: brightness(0); /* Todos ficam em preto preenchido */
-        }
-        .light-mode .kit-item-wrapper:hover .kit-item {
-            filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(1.1);
-        }
-        .light-mode .kit-item-wrapper:hover .kit-item.force-mono {
-            filter: brightness(0) !important; 
-        }
 
         /* Video Modal */
         #video-modal {
@@ -526,14 +488,20 @@
             </div>
         </section>
 
-        <!-- KIT & SOFTWARES (CARROSSEL LENTO COM NOME) -->
+        <!-- KIT & SOFTWARES (CARROSSEL LENTO COM NOME FIXO NO FUNDO) -->
         <section id="kit" class="py-24 border-t border-themeBorder overflow-hidden bg-themeBg">
             <div class="px-6 md:px-12 mb-16 text-center">
                 <h3 class="text-xs tracking-[0.2em] text-themeTextMuted uppercase" data-i18n="kit-title">Kit de gravação e transmissão + Softwares de edição áudio e vídeo</h3>
             </div>
-            <div class="relative w-full flex items-center py-8">
-                <div class="marquee-container slow" id="kit-marquee-content">
+            
+            <div class="relative w-full flex flex-col items-center py-4">
+                <div class="marquee-container slow hover-target" id="kit-marquee-content">
                     <!-- Injetado via JS -->
+                </div>
+                
+                <!-- Área de Descrição Fixa do Hover -->
+                <div class="h-8 mt-12 flex justify-center items-center">
+                    <p id="kit-desc-text" class="text-sm md:text-base text-themeText tracking-widest font-light transition-opacity duration-300 opacity-0 text-center uppercase"></p>
                 </div>
             </div>
         </section>
@@ -884,17 +852,71 @@
             themeToggleBtn.addEventListener('click', toggleTheme);
             themeToggleMobileBtn.addEventListener('click', toggleTheme);
 
-            // --- KIT & SOFTWARES (CARROSSEL) ---
+            // --- KIT & SOFTWARES (CARROSSEL COM 3 IMAGENS + DESCRIÇÃO) ---
             const kitData = [
-                { id: '1GH1oU8AYD-zt3WowQiBv1Z3x6Q9JwZ7-', forceMono: true, name: 'DAW de edição profissional de áudio' },
-                { id: '1FK5n_5DrHTL4MEy4z6JWsFhlWvXzA835', forceMono: false, name: 'Editor profissional de vídeos para pc' },
-                { id: '1CJbdVnD49YZSG_SjIVmR2ZrOJSH8jdt7', forceMono: true, name: 'Editor de vídeos para celular' },
-                { id: '1oyqnBXv34LX_LTuX4hOTY4iTpz9FqXqN', forceMono: true, name: 'Geração com inteligencia artificial' },
-                { id: '1WdgQYUMOrp1wjkLqwiy-JU-MdUoKuFIf', forceMono: false, name: 'Microfone Hollyand lapela de alta qualidade' },
-                { id: '1x-kk8-s2WctEfEHAmUEgn2tGAOUyREwd', forceMono: false, name: 'Luz de preenchimento profissional portátil' },
-                { id: '1EQ3UqTtwwVIdjR_bEpEXE7rrO78nxMgP', forceMono: false, name: 'HD externa de volume para grandes materiais' },
-                { id: '1BTR8CuBJeB1bWz8y2gMWb6pneceIW5pG', forceMono: false, name: 'Gimmbal de 3 eixos para filmagem estabilizada' },
-                { id: '1VNovxnCQJ7p2axvTfya7UOqX8gP6uyDu', forceMono: false, name: 'DJI Mini 2 para imagens aéreas em até 4K' }
+                { 
+                    name: 'Claude', 
+                    color: '10qQdMf1xrTXZ7z4DBy3R_wqjNQ9_piPm', 
+                    light: '12O9zhHCVKJM0EOqCdiNFN9AQBtdxvm5U', 
+                    dark: '1WTo5s-xKXVyDyo01SmpFlE54iFC8fyp1', 
+                    desc: 'Claude gerador de conteúdos de IA' 
+                },
+                { 
+                    name: 'Ableton live', 
+                    color: '1Dsmg6tRQ-s3ZgyoUIihS67Wr_TuSzxq7', 
+                    light: '1ZznpJc6k0uliGWxmK-GNg99BQkXh6Dt-', 
+                    dark: '1edjjR99064BPnDCkluGEsEt8OKpClEWP', 
+                    desc: 'DAW de edição profissional de áudio' 
+                },
+                { 
+                    name: 'Adobe premiere', 
+                    color: '1ax7A-vAiS7xTMNGsx435pFjb8wdBZpi8', 
+                    light: '1WE6SW1zl1EKzv3ufoiuHk7sMPv-uOycg', 
+                    dark: '15loe6gkUTKnoVGoSJs8W-mOt0ByUPWRL', 
+                    desc: 'Editor profissional de vídeos para PC' 
+                },
+                { 
+                    name: 'Capcut', 
+                    color: '1iMJmEK44SZ9KajsGQxfpXjcrcBdMcI-L', 
+                    light: '1ZPy3eSduZmfyOu55eX15PzctKClPnYbT', 
+                    dark: '1t06Qmq0pASKRmSdm4FLyA7b9NJymSXkI', 
+                    desc: 'Editor profissional de vídeos para celular' 
+                },
+                { 
+                    name: 'Microfone lapela', 
+                    color: '118GePwOQnk9ys796o40PnVKNYw1iBjXG', 
+                    light: '1zkCv7hq4EZlKHouhhuTPiN8-Ginoi7jU', 
+                    dark: '1awhbFQjLUtWyaNSJgyicWcudp-okVDSa', 
+                    desc: 'Microfone lapela Hollyand de alta qualidade' 
+                },
+                { 
+                    name: 'Luz de preenchimento', 
+                    color: '1xAoHJe7sojDt0kldm0t5uXz8OI6kdS3Y', 
+                    light: '1cx9P4h_SSpl28_xdxwipSThmp6k6_096', 
+                    dark: '1aIF3OgF3CqM5yp2T-EmT7Vp7XK1L5pVi', 
+                    desc: 'Luz portátil de preenchimento Vedo 60w' 
+                },
+                { 
+                    name: 'HD externo', 
+                    color: '10jW1N5pLUE7KYzbbwIhMyOrsLX2BG7LZ', 
+                    light: '1F_shxD9xRIe8ZUGVz6yoKHXynfSN3BPM', 
+                    dark: '1SD_eNftjARMbmz84RpPf487K-GbtAw8y', 
+                    desc: 'HD externa de volume para grandes materiais' 
+                },
+                { 
+                    name: 'Gimbal', 
+                    color: '1My8wrFF3NTRYxyulI3Su6x1cpsMbgy6c', 
+                    light: '1EMXQx2CJc5XatOBlRCsBIvkbUrs46AzA', 
+                    dark: '19a2tcKWWyEaTd6t59Lg8NoCG4Q1wCbTG', 
+                    desc: 'Gimmbal de 3 eixos para filmagem estabilizada' 
+                },
+                { 
+                    name: 'DJI drone', 
+                    color: '1jTNJbKfcIOeW5dqo_UqSrxXdXouZY7iV', 
+                    light: '19PJLjGCwicqGjLTDtOH69GaG36l_WXIe', 
+                    dark: '122TzqGGcPyATTVFN2onPsSyWb6SFvh_1', 
+                    desc: 'Drone DJI Mini 2 para imagens aéreas em 4K' 
+                }
             ];
 
             const kitMarqueeContent = document.getElementById('kit-marquee-content');
@@ -903,19 +925,29 @@
                 let html = '';
                 // Duplica a lista para o scroll infinito do CSS rodar liso
                 [...kitData, ...kitData].forEach(item => {
-                    const monoClass = item.forceMono ? 'force-mono' : '';
                     html += `
-                        <div class="kit-item-wrapper hover-target">
-                            <img src="https://drive.google.com/thumbnail?id=${item.id}&sz=w400" 
-                                 class="kit-item ${monoClass}" 
-                                 alt="${item.name}">
-                            <span class="kit-label">${item.name}</span>
+                        <div class="kit-item-wrapper hover-target" data-desc="${item.desc}">
+                            <img src="https://drive.google.com/thumbnail?id=${item.dark}&sz=w400" class="kit-img kit-dark" alt="${item.name}">
+                            <img src="https://drive.google.com/thumbnail?id=${item.light}&sz=w400" class="kit-img kit-light" alt="${item.name}">
+                            <img src="https://drive.google.com/thumbnail?id=${item.color}&sz=w400" class="kit-img kit-color" alt="${item.name}">
                         </div>
                     `;
                 });
                 kitMarqueeContent.innerHTML = html;
             }
             buildKitMarquee();
+
+            // Adiciona a lógica de revelar o texto abaixo do carrossel
+            const kitDescText = document.getElementById('kit-desc-text');
+            document.querySelectorAll('.kit-item-wrapper').forEach(wrapper => {
+                wrapper.addEventListener('mouseenter', () => {
+                    kitDescText.textContent = wrapper.getAttribute('data-desc');
+                    kitDescText.style.opacity = '1';
+                });
+                wrapper.addEventListener('mouseleave', () => {
+                    kitDescText.style.opacity = '0';
+                });
+            });
 
             // --- TRABALHOS ---
             const workDataRaw = [
