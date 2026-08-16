@@ -269,14 +269,14 @@
         }
 
         /* MODO ESCURO (Padrão) */
-        body:not(.light-mode) .kit-item {
+        html:not(.light-mode) .kit-item {
             filter: brightness(0) invert(1); /* Todos ficam em branco preenchido */
         }
-        body:not(.light-mode) .kit-item-wrapper:hover {
+        html:not(.light-mode) .kit-item-wrapper:hover {
             transform: scale(2); /* Dobra de tamanho */
             z-index: 50; /* Sobrepõe os outros */
         }
-        body:not(.light-mode) .kit-item-wrapper:hover .kit-item {
+        html:not(.light-mode) .kit-item-wrapper:hover .kit-item {
             /* Restaura a cor original e inverte luminosidade: preto vira branco, mantém matizes */
             filter: invert(1) hue-rotate(180deg) brightness(1.2) contrast(1.1);
         }
@@ -498,7 +498,6 @@
                 <h3 class="text-xs tracking-[0.2em] text-themeTextMuted uppercase" data-i18n="kit-title">Kit de gravação e transmissão + Softwares de edição áudio e vídeo</h3>
             </div>
             <div class="relative w-full flex items-center hover-target py-8">
-                <!-- Adicionado a classe "slow" para ser mais lento que o dos clientes -->
                 <div class="marquee-container slow" id="kit-marquee-content">
                     <!-- Injetado via JS -->
                 </div>
