@@ -51,6 +51,30 @@ Todas as funcionalidades (troca de tema, troca de idioma, carrosséis, modal de
 vídeo, cursor customizado, intro animada, menu mobile) foram testadas via
 inspeção de código e permanecem exatamente as mesmas.
 
+## Atualização — Reels da seção "TRABALHO"
+
+A seção `#work` (grid de reels 9:16) já vinha, desde o arquivo original, com a
+`<div id="work-grid">` pronta no HTML mas **sem nenhuma função JavaScript que a
+preenchesse** — por isso ela aparecia vazia. Isso não fazia parte da separação
+de CSS/JS; era uma lacuna que já existia no código-fonte enviado.
+
+Foi adicionada a função `buildWorkGrid()` em `js/script.js` (mesmo padrão de
+`buildKitMarquee()` e `buildMarquee()` já existentes), populando o grid com 8
+reels a partir dos links do Google Drive fornecidos. As thumbnails usam o frame
+automático que o próprio Google Drive gera para cada vídeo
+(`drive.google.com/thumbnail?id=...`), no formato vertical 9:16. Os cards abrem
+no mesmo modal de vídeo já existente no site (nenhuma lógica nova de modal foi
+criada).
+
+**Sobre o player em vídeos no celular:** o vídeo é exibido dentro de um
+`<iframe>` do domínio `drive.google.com`. Por restrição de segurança do
+navegador (cross-origin), não é possível estilizar ou remover os controles
+nativos do player do Google Drive a partir do código do site — esse HTML
+pertence ao Google. Por isso o player foi mantido exatamente como estava. Uma
+alternativa futura, caso queira resolver isso de forma definitiva, é migrar os
+vídeos para um player que você controla totalmente (Cloudflare Stream, Mux,
+Bunny.net, YouTube não-listado, etc.).
+
 ## O que o site usa (dependências externas, via CDN)
 
 Nada precisa ser instalado — tudo é carregado direto da internet quando a página abre:

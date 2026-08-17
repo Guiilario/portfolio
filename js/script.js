@@ -269,6 +269,35 @@
             }
             buildMarquee();
 
+            // --- TRABALHO (REELS 9:16 INJETADOS NO GRID) ---
+            const workData = [
+                { id: '1psq0rFnOvsH9CSVfSMW8AZMvWm3dId5c', title: 'PROJETO 01' },
+                { id: '1Ikca7E-wj7j5CCiodqV7Yetjbc_F-2_L', title: 'PROJETO 02' },
+                { id: '1tzCk5Oi_tHOS1PDPmax-jMiFoy3LGxNt', title: 'PROJETO 03' },
+                { id: '1I-5R0PaQ89y87lYGWKNCUEmfvGNCOYBp', title: 'PROJETO 04' },
+                { id: '107LUWTavQYRzfTwRAYclWF-ZjPihSz2y', title: 'PROJETO 05' },
+                { id: '1JSUCSoc6DnCr54-lBlUsGbtrF0z0GBOs', title: 'PROJETO 06' },
+                { id: '1XKstTwL9VsiXNmCcqF2PJYm509l56Z6j', title: 'PROJETO 07' },
+                { id: '1TzW8Yt-VLfvarro9h1jc1_RX68c73xzd', title: 'PROJETO 08' }
+            ];
+            const workGrid = document.getElementById('work-grid');
+
+            function buildWorkGrid() {
+                let html = '';
+                workData.forEach(item => {
+                    html += `
+                        <div class="work-card relative aspect-[9/16] w-[240px] md:w-full shrink-0 bg-themeCard rounded overflow-hidden cursor-pointer group play-target" data-video="https://drive.google.com/file/d/${item.id}/preview">
+                            <img src="https://drive.google.com/thumbnail?id=${item.id}&sz=w720-h1280" alt="${item.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                            <div class="work-info absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/80 to-transparent opacity-0 transform translate-y-4 transition-all duration-500 flex flex-col gap-1 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 z-10">
+                                <span class="text-sm text-white font-light uppercase tracking-widest">${item.title}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+                workGrid.innerHTML = html;
+            }
+            buildWorkGrid();
+
             // --- LÓGICA DO VIDEO MODAL (RETORNADO PARA IFRAME) ---
             const modal = document.getElementById('video-modal');
             const iframe = document.getElementById('project-iframe');
