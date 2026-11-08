@@ -51,6 +51,15 @@ Todas as funcionalidades (troca de tema, troca de idioma, carrosséis, modal de
 vídeo, cursor customizado, intro animada, menu mobile) foram testadas via
 inspeção de código e permanecem exatamente as mesmas.
 
+## Atualização — Vídeos 16:9 ("DESTAQUES") e Carrossel
+
+Foi adicionado o **Projeto Destaque 03** com proporção horizontal 16:9 (`1Wlru7krg06TZ5ZWYmXIrajiHIaeXBhSn`).
+A seção agora conta com um **carrossel interativo e responsivo**:
+- **Bolinhas de seleção (dots) dinâmicas**: indicam o vídeo ativo e permitem deslizar diretamente para qualquer trabalho com um clique.
+- **Setas de navegação (desktop)**: facilitam a navegação rápida entre os projetos horizontais.
+- **Suporte a touch/swipe no celular e drag com o mouse no desktop**: rolagem suave com *scroll-snap*, mantendo a estética minimalista e o modal 16:9 integrado.
+- **Traduções**: atualizado o dicionário PT/EN para contemplar o `PROJETO DESTAQUE 03` / `FEATURED PROJECT 03`.
+
 ## Atualização — Reels da seção "TRABALHO"
 
 A seção `#work` (grid de reels 9:16) já vinha, desde o arquivo original, com a

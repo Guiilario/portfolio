@@ -200,29 +200,57 @@
 
         <!-- HIGHLIGHTS 16:9 -->
         <section id="horizontal-work" class="py-16 md:py-24 overflow-hidden border-t border-themeBorder">
-            <div class="px-6 md:px-12 max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-4">
-                <h3 class="text-xs tracking-[0.2em] text-themeTextMuted uppercase" data-i18n="horizontal-title">DESTAQUES</h3>
-                <p class="text-sm text-themeText font-light uppercase" data-i18n="horizontal-subtitle">Formatos Horizontais (16:9)</p>
+            <div class="px-6 md:px-12 max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-4">
+                <div>
+                    <h3 class="text-xs tracking-[0.2em] text-themeTextMuted uppercase" data-i18n="horizontal-title">DESTAQUES</h3>
+                    <p class="text-sm text-themeText font-light uppercase mt-1" data-i18n="horizontal-subtitle">Formatos Horizontais (16:9)</p>
+                </div>
+                
+                <!-- Setas de Navegação (Desktop/Tablet) -->
+                <div class="hidden md:flex items-center gap-3">
+                    <button id="carousel-prev" class="w-10 h-10 rounded-full border border-themeBorder flex items-center justify-center text-themeText hover:bg-themeText hover:text-themeBg transition-colors hover-target" aria-label="Vídeo anterior">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"/></svg>
+                    </button>
+                    <button id="carousel-next" class="w-10 h-10 rounded-full border border-themeBorder flex items-center justify-center text-themeText hover:bg-themeText hover:text-themeBg transition-colors hover-target" aria-label="Próximo vídeo">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
             </div>
             
             <div class="px-6 md:px-12 max-w-[1400px] mx-auto">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12" id="horizontal-grid">
+                <!-- Track do Carrossel 16:9 -->
+                <div class="horizontal-carousel flex gap-6 md:gap-8 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4 select-none scrollbar-none" id="horizontal-carousel">
                     <!-- Video 1 -->
-                    <div class="horizontal-card relative aspect-video bg-themeCard rounded overflow-hidden cursor-pointer group play-target" data-video="https://drive.google.com/file/d/107LUWTavQYRzfTwRAYclWF-ZjPihSz2y/preview">
-                        <img src="https://drive.google.com/thumbnail?id=16-___gCM9O05RSAGD54RPS0nLr1E_n9X&sz=w1280-h720" alt="Video 16:9 Destaque 1" class="w-full h-full object-cover horizontal-img">
+                    <div class="horizontal-card relative aspect-video bg-themeCard rounded overflow-hidden cursor-pointer group play-target shrink-0 snap-start w-[88vw] sm:w-[85vw] md:w-[calc(50%-1rem)]" data-video="https://drive.google.com/file/d/107LUWTavQYRzfTwRAYclWF-ZjPihSz2y/preview">
+                        <img src="https://drive.google.com/thumbnail?id=16-___gCM9O05RSAGD54RPS0nLr1E_n9X&sz=w1280-h720" alt="Video 16:9 Destaque 1" class="w-full h-full object-cover horizontal-img pointer-events-none">
                         <div class="work-info absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/80 to-transparent opacity-0 transform translate-y-4 transition-all duration-500 flex flex-col gap-1 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 z-10">
                             <span class="text-sm text-white font-light uppercase tracking-widest" data-i18n="horizontal-p1">PROJETO DESTAQUE 01</span>
                         </div>
                     </div>
                     <!-- Video 2 -->
-                    <div class="horizontal-card relative aspect-video bg-themeCard rounded overflow-hidden cursor-pointer group play-target" data-video="https://drive.google.com/file/d/11RXx4ya49BARsj2-HuogeCUiIu2FCnkn/preview">
-                        <img src="https://drive.google.com/thumbnail?id=1VYCAZopji9ckgLoh16yuFSTnS9l0jQw1&sz=w1280-h720" alt="Video 16:9 Destaque 2" class="w-full h-full object-cover horizontal-img">
+                    <div class="horizontal-card relative aspect-video bg-themeCard rounded overflow-hidden cursor-pointer group play-target shrink-0 snap-start w-[88vw] sm:w-[85vw] md:w-[calc(50%-1rem)]" data-video="https://drive.google.com/file/d/11RXx4ya49BARsj2-HuogeCUiIu2FCnkn/preview">
+                        <img src="https://drive.google.com/thumbnail?id=1VYCAZopji9ckgLoh16yuFSTnS9l0jQw1&sz=w1280-h720" alt="Video 16:9 Destaque 2" class="w-full h-full object-cover horizontal-img pointer-events-none">
                         <div class="work-info absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/80 to-transparent opacity-0 transform translate-y-4 transition-all duration-500 flex flex-col gap-1 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 z-10">
                             <span class="text-sm text-white font-light uppercase tracking-widest" data-i18n="horizontal-p2">PROJETO DESTAQUE 02</span>
                         </div>
                     </div>
+                    <!-- Video 3 -->
+                    <div class="horizontal-card relative aspect-video bg-themeCard rounded overflow-hidden cursor-pointer group play-target shrink-0 snap-start w-[88vw] sm:w-[85vw] md:w-[calc(50%-1rem)]" data-video="https://drive.google.com/file/d/1Wlru7krg06TZ5ZWYmXIrajiHIaeXBhSn/preview">
+                        <img src="https://drive.google.com/thumbnail?id=1Wlru7krg06TZ5ZWYmXIrajiHIaeXBhSn&sz=w1280-h720" alt="Video 16:9 Destaque 3" class="w-full h-full object-cover horizontal-img pointer-events-none">
+                        <div class="work-info absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/80 to-transparent opacity-0 transform translate-y-4 transition-all duration-500 flex flex-col gap-1 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 z-10">
+                            <span class="text-sm text-white font-light uppercase tracking-widest" data-i18n="horizontal-p3">PROJETO DESTAQUE 03</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="md:hidden w-full text-center mt-8">
+
+                <!-- Bolinhas de Seleção (Dots) -->
+                <div class="flex justify-center items-center gap-3 mt-8" id="carousel-dots">
+                    <button class="carousel-dot h-2 w-7 rounded-full transition-all duration-300 hover-target bg-themeText" data-index="0" aria-label="Ir para vídeo 1"></button>
+                    <button class="carousel-dot h-2 w-2 rounded-full transition-all duration-300 hover-target bg-themeText/30 hover:bg-themeText/60" data-index="1" aria-label="Ir para vídeo 2"></button>
+                    <button class="carousel-dot h-2 w-2 rounded-full transition-all duration-300 hover-target bg-themeText/30 hover:bg-themeText/60" data-index="2" aria-label="Ir para vídeo 3"></button>
+                </div>
+
+                <div class="md:hidden w-full text-center mt-6">
                     <p class="text-[10px] tracking-[0.2em] text-themeTextMuted uppercase animate-pulse" data-i18n="tap-to-watch">Toque para assistir</p>
                 </div>
             </div>

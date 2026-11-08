@@ -16,7 +16,7 @@
                     'kit-title': 'Kit de gravação e transmissão + Softwares de edição áudio e vídeo',
                     'work-title': 'TRABALHO', 'work-subtitle': 'Uma seleção do que tenho criado.',
                     'horizontal-title': 'DESTAQUES', 'horizontal-subtitle': 'Formatos Horizontais (16:9)',
-                    'horizontal-p1': 'PROJETO DESTAQUE 01', 'horizontal-p2': 'PROJETO DESTAQUE 02',
+                    'horizontal-p1': 'PROJETO DESTAQUE 01', 'horizontal-p2': 'PROJETO DESTAQUE 02', 'horizontal-p3': 'PROJETO DESTAQUE 03',
                     'tap-to-watch': 'Toque para assistir',
                     'clients-title': 'Últimos clientes - Julho / Agosto 2026',
                     'camp-title': 'Sua campanha acontece todos os dias. Transforme essa rotina em conteúdo.',
@@ -64,7 +64,7 @@
                     'kit-title': 'Recording & Broadcasting Kit + Audio & Video Editing Software',
                     'work-title': 'WORK', 'work-subtitle': "A selection of what I've created.",
                     'horizontal-title': 'HIGHLIGHTS', 'horizontal-subtitle': 'Horizontal Formats (16:9)',
-                    'horizontal-p1': 'FEATURED PROJECT 01', 'horizontal-p2': 'FEATURED PROJECT 02',
+                    'horizontal-p1': 'FEATURED PROJECT 01', 'horizontal-p2': 'FEATURED PROJECT 02', 'horizontal-p3': 'FEATURED PROJECT 03',
                     'tap-to-watch': 'Tap to watch',
                     'clients-title': 'Latest clients - July / August 2026',
                     'camp-title': 'Your campaign happens every day. Turn that routine into content.',
@@ -303,9 +303,11 @@
             const iframe = document.getElementById('project-iframe');
             const closeModal = document.getElementById('close-modal');
             const mainHeader = document.getElementById('main-header');
+            let isMouseDragging = false;
 
             document.querySelectorAll('.play-target').forEach(card => {
                 card.addEventListener('click', () => {
+                    if (isMouseDragging) return;
                     const isHorizontal = card.classList.contains('horizontal-card');
                     const iframeWrapper = document.getElementById('iframe-wrapper');
                     
@@ -333,6 +335,109 @@
                 document.body.style.overflow = 'auto';
                 mainHeader.style.display = 'flex'; 
             });
+
+            // --- CARROSSEL 16:9 (HIGHLIGHTS / DESTAQUES) ---
+            const horizontalCarousel = document.getElementById('horizontal-carousel');
+            if (horizontalCarousel) {
+                const horizontalCards = horizontalCarousel.querySelectorAll('.horizontal-card');
+                const horizontalDots = document.querySelectorAll('.carousel-dot');
+                const prevBtn = document.getElementById('carousel-prev');
+                const nextBtn = document.getElementById('carousel-next');
+
+                function updateActiveDot() {
+                    const scrollLeft = horizontalCarousel.scrollLeft;
+                    const maxScroll = horizontalCarousel.scrollWidth - horizontalCarousel.clientWidth;
+                    
+                    let activeIndex = 0;
+                    if (maxScroll > 0 && scrollLeft >= maxScroll - 20) {
+                        activeIndex = horizontalCards.length - 1;
+                    } else {
+                        let minDiff = Infinity;
+                        horizontalCards.forEach((card, idx) => {
+                            const diff = Math.abs(card.offsetLeft - scrollLeft);
+                            if (diff < minDiff) {
+                                minDiff = diff;
+                                activeIndex = idx;
+                            }
+                        });
+                    }
+
+                    horizontalDots.forEach((dot, idx) => {
+                        if (idx === activeIndex) {
+                            dot.classList.add('w-7', 'bg-themeText');
+                            dot.classList.remove('w-2', 'bg-themeText/30');
+                        } else {
+                            dot.classList.remove('w-7', 'bg-themeText');
+                            dot.classList.add('w-2', 'bg-themeText/30');
+                        }
+                    });
+                }
+
+                horizontalDots.forEach((dot) => {
+                    dot.addEventListener('click', () => {
+                        const targetIndex = parseInt(dot.getAttribute('data-index'), 10);
+                        if (horizontalCards[targetIndex]) {
+                            horizontalCarousel.scrollTo({
+                                left: horizontalCards[targetIndex].offsetLeft,
+                                behavior: 'smooth'
+                            });
+                        }
+                    });
+                });
+
+                if (prevBtn) {
+                    prevBtn.addEventListener('click', () => {
+                        const cardWidth = horizontalCards[0] ? horizontalCards[0].offsetWidth + 24 : 350;
+                        horizontalCarousel.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+                    });
+                }
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', () => {
+                        const cardWidth = horizontalCards[0] ? horizontalCards[0].offsetWidth + 24 : 350;
+                        horizontalCarousel.scrollBy({ left: cardWidth, behavior: 'smooth' });
+                    });
+                }
+
+                let scrollTicking = false;
+                horizontalCarousel.addEventListener('scroll', () => {
+                    if (!scrollTicking) {
+                        window.requestAnimationFrame(() => {
+                            updateActiveDot();
+                            scrollTicking = false;
+                        });
+                        scrollTicking = true;
+                    }
+                }, { passive: true });
+
+                // Suporte a arrastar com o mouse (drag to scroll) no desktop
+                let isMouseDown = false;
+                let startX = 0;
+                let startScrollLeft = 0;
+
+                horizontalCarousel.addEventListener('mousedown', (e) => {
+                    isMouseDown = true;
+                    isMouseDragging = false;
+                    startX = e.pageX - horizontalCarousel.offsetLeft;
+                    startScrollLeft = horizontalCarousel.scrollLeft;
+                });
+
+                window.addEventListener('mouseup', () => {
+                    if (isMouseDown) {
+                        isMouseDown = false;
+                        setTimeout(() => { isMouseDragging = false; }, 60);
+                    }
+                });
+
+                horizontalCarousel.addEventListener('mousemove', (e) => {
+                    if (!isMouseDown) return;
+                    const x = e.pageX - horizontalCarousel.offsetLeft;
+                    const walk = x - startX;
+                    if (Math.abs(walk) > 6) {
+                        isMouseDragging = true;
+                        horizontalCarousel.scrollLeft = startScrollLeft - walk;
+                    }
+                });
+            }
 
             // --- TRUE FOCUS LOGIC ---
             const trueFocusWrapper = document.getElementById('true-focus-wrapper');
