@@ -34,18 +34,14 @@
                     'camp-agenda-title': 'Agenda 2026',
                     'camp-agenda-p': 'Estou abrindo minha agenda para novos projetos durante a campanha de 2026. Se você procura um profissional para acompanhar a rotina do político de forma próxima, ágil e constante, vamos conversar sobre a agenda e montar um formato de cobertura adequado à campanha.',
                     'faq-title': 'FAQ',
-                    'faq-q1': 'Você trabalha especificamente com campanhas políticas?',
-                    'faq-a1': 'Sim. Meu foco para 2026 é atender políticos e equipes de campanha, com acompanhamento de rotina, eventos e produção de conteúdo para redes sociais.',
-                    'faq-q2': 'Você acompanha o político durante a agenda?',
-                    'faq-a2': 'Sim. O formato pode ser planejado de acordo com a agenda, incluindo eventos, reuniões, viagens e outros compromissos.',
                     'faq-q3': 'Você faz somente a gravação?',
                     'faq-a3': 'Não. O serviço pode incluir todo o processo de captação, seleção, edição e entrega dos conteúdos.',
                     'faq-q4': 'Posso contratar por diária ou fechar um período maior?',
-                    'faq-a4': 'Sim. Podemos trabalhar por diária, evento, período ou pacote de acompanhamento, de acordo com a necessidade da campanha.',
+                    'faq-a4': 'Sim. Podemos trabalhar por diária, evento, período ou pacote de acompanhamento, de acordo com a necessidade do seu projeto.',
                     'faq-q5': 'O conteúdo é entregue no mesmo dia?',
                     'faq-a5': 'Dependendo do formato e da demanda, é possível trabalhar com entregas rápidas, inclusive durante a própria agenda.',
                     'faq-q6': 'Você ainda tem disponibilidade para 2026?',
-                    'faq-a6': 'Sim. A agenda está sendo organizada para a campanha de 2026. Entre em contato para consultar disponibilidade e formatos de cobertura.',
+                    'faq-a6': 'Sim. A agenda está aberta para novos projetos em 2026. Entre em contato para consultar disponibilidade e formatos de cobertura.',
                     'contact-title': 'VAMOS CRIAR ALGO?',
                     'contact-p': 'Se você tem uma marca, projeto ou ideia que precisa ganhar vida em vídeo, vamos conversar.',
                     'btn-talk': 'VAMOS CONVERSAR'
@@ -82,18 +78,14 @@
                     'camp-agenda-title': '2026 Agenda',
                     'camp-agenda-p': 'I am opening my agenda for new projects during the 2026 campaign. If you are looking for a professional to closely, agilely, and constantly follow the politician\'s routine, let\'s talk about the agenda and set up a coverage format suitable for the campaign.',
                     'faq-title': 'FAQ',
-                    'faq-q1': 'Do you work specifically with political campaigns?',
-                    'faq-a1': 'Yes. My focus for 2026 is to serve politicians and campaign teams, covering routines, events, and producing content for social media.',
-                    'faq-q2': 'Do you accompany the politician during the agenda?',
-                    'faq-a2': 'Yes. The format can be planned according to the agenda, including events, meetings, trips, and other commitments.',
                     'faq-q3': 'Do you only do the recording?',
                     'faq-a3': 'No. The service can include the entire process of capturing, selecting, editing, and delivering the content.',
                     'faq-q4': 'Can I hire per day or for a longer period?',
-                    'faq-a4': 'Yes. We can work per day, event, period, or follow-up package, depending on the campaign\'s needs.',
+                    'faq-a4': 'Yes. We can work per day, event, period, or follow-up package, depending on your project\'s needs.',
                     'faq-q5': 'Is the content delivered on the same day?',
                     'faq-a5': 'Depending on the format and demand, it is possible to work with fast deliveries, even during the agenda itself.',
                     'faq-q6': 'Do you still have availability for 2026?',
-                    'faq-a6': 'Yes. The agenda is being organized for the 2026 campaign. Get in touch to check availability and coverage formats.',
+                    'faq-a6': 'Yes. The schedule is open for new projects in 2026. Get in touch to check availability and coverage formats.',
                     'contact-title': 'HAVE AN IDEA?',
                     'contact-p': "If you have a brand, project, or idea that needs to come to life through video, let's talk.",
                     'btn-talk': "LET'S TALK"
@@ -363,13 +355,7 @@
                     }
 
                     horizontalDots.forEach((dot, idx) => {
-                        if (idx === activeIndex) {
-                            dot.classList.add('w-7', 'bg-themeText');
-                            dot.classList.remove('w-2', 'bg-themeText/30');
-                        } else {
-                            dot.classList.remove('w-7', 'bg-themeText');
-                            dot.classList.add('w-2', 'bg-themeText/30');
-                        }
+                        dot.classList.toggle('active', idx === activeIndex);
                     });
                 }
 

@@ -143,6 +143,7 @@
             background: var(--text-main);
             border-radius: 50%;
             will-change: transform;
+            transition: background-color 0.3s ease;
         }
 
         .target-cursor-corner {
@@ -153,12 +154,24 @@
             height: 8px;
             border: 2px solid var(--text-main);
             will-change: transform;
+            transition: border-color 0.3s ease;
         }
 
         .corner-tl { border-right: none; border-bottom: none; }
         .corner-tr { border-left: none; border-bottom: none; }
         .corner-br { border-left: none; border-top: none; }
         .corner-bl { border-right: none; border-top: none; }
+
+        /* Cursor no Modo Claro (Preto e 100% Visível) */
+        .light-mode .target-cursor-wrapper {
+            mix-blend-mode: normal;
+        }
+        .light-mode .target-cursor-dot {
+            background: #000000;
+        }
+        .light-mode .target-cursor-corner {
+            border-color: #000000;
+        }
 
         /* Marquee Clientes e Kits (Infinito com Arrays Quadruplicados -25%) */
         .marquee-container {
@@ -333,6 +346,48 @@
                 filter: grayscale(0%);
                 opacity: 0.9;
             }
+        }
+
+        /* Bolinhas de Seleção do Carrossel 16:9 */
+        .carousel-dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 9999px;
+            background-color: #FFFFFF;
+            opacity: 0.35;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+        }
+        .carousel-dot:hover {
+            opacity: 0.8;
+            border-color: #FFFFFF;
+        }
+        .carousel-dot.active {
+            width: 1.75rem;
+            opacity: 1;
+            background-color: #FFFFFF;
+            border-color: #FFFFFF;
+        }
+
+        /* Modo Claro: Todas as Bolinhas em Preto */
+        .light-mode .carousel-dot {
+            background-color: #000000;
+            opacity: 0.35;
+            border: 1px solid rgba(0, 0, 0, 0.5);
+        }
+        .light-mode .carousel-dot:hover {
+            opacity: 0.8;
+            border-color: #000000;
+        }
+        .light-mode .carousel-dot.active {
+            width: 1.75rem;
+            background-color: #000000;
+            border-color: #000000;
+            opacity: 1;
         }
 
         /* Ocultar seta padrão do details (FAQ) */

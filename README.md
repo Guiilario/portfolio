@@ -55,7 +55,8 @@ inspeção de código e permanecem exatamente as mesmas.
 
 Foi adicionado o **Projeto Destaque 03** com proporção horizontal 16:9 (`1Wlru7krg06TZ5ZWYmXIrajiHIaeXBhSn`).
 A seção agora conta com um **carrossel interativo e responsivo**:
-- **Bolinhas de seleção (dots) dinâmicas**: indicam o vídeo ativo e permitem deslizar diretamente para qualquer trabalho com um clique.
+- **Bolinhas de seleção (dots) dinâmicas**: indicam o vídeo ativo e permitem deslizar diretamente para qualquer trabalho com um clique. Adaptadas ao tema: 100% brancas no modo escuro e 100% pretas no modo claro.
+- **Cursor customizado reativo ao tema**: ajustado para ficar preto no modo claro (removendo a invisibilidade por inversão de blend mode) e branco no modo escuro.
 - **Setas de navegação (desktop)**: facilitam a navegação rápida entre os projetos horizontais.
 - **Suporte a touch/swipe no celular e drag com o mouse no desktop**: rolagem suave com *scroll-snap*, mantendo a estética minimalista e o modal 16:9 integrado.
 - **Traduções**: atualizado o dicionário PT/EN para contemplar o `PROJETO DESTAQUE 03` / `FEATURED PROJECT 03`.
